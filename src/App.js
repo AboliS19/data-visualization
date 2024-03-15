@@ -2,11 +2,16 @@ import React from 'react';
 import Sample from './sample';
 import './App.css';
 
+
 function App() {
+
 const style = {
-width: "50%",
-margin: "0 auto",
-marginTop: 150
+  width: "50%",
+  margin: "0 auto",
+  marginTop: 100,
+  maxWidth: 880, // Set the maximum width
+  marginLeft: "auto", // Center the chatbot
+  marginRight: "auto" // Center the chatbot
 };
 return (
 <div className="App">

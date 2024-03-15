@@ -1,8 +1,11 @@
 .App {
   text-align: center;
-  height: 100vh;
+  height: 700vh;
 }
 
+.rsc{
+  margin-left: 500rem;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -24,6 +27,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 
 .App-link {
   color: #61dafb;
