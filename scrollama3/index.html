@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+  <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <title>Scrollytelling with Scrollama and D3 (demo)</title>
+      <meta name="description" content="An example of how to combine scrollama.js with d3.js for scrollytelling" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet"> 
+      <link rel="stylesheet" href="style.css" />
+      <style>
+       
+
+        form {
+            width: 450px; /* Adjust width as needed */
+    margin: auto; /* Center horizontally */
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+        }
+
+        
+
+        ol {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            width: auto;
+            margin-bottom: 20px;
+        }
+
+        form h6 {
+            width: auto;
+            font-weight: bold;
+            font-size: 16px;
+            border-right: none;
+        }
+        
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff884d;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff884d;
+        }
+    </style>
+  </head>
+
+  <body>
+    <div id="language">
+        Language: 
+        <a class="active" href="http://edriessen.com/app/scrollytelling-demo/">EN</a> |
+        <a href="http://edriessen.com/app/scrollytelling-demo/nl.html">NL</a>
+    </div>
+    <main>
+      <section class="generic" id="intro">
+        <h1>
+            <b>Scrollytelling Onboarding - Heatmap</b>
+        </h1>
+        <hr class="separator">
+      </section>
+
+      <section id="scrolly">
+          <figure>
+            <div id="heatmap-container"></div>
+          </figure>
+        
+
+        <article>
+            
+            <div class="step" data-step="1">
+              
+                <h2>HeatMap</h2>
+                <p>
+                    A heatmap is a graphical representation of data where values are depicted as colors on a matrix, allowing for easy visualization of patterns and trends.</p>
+            </div>
+            
+            <div class="step" data-step="2">
+                <h2>Introduction</h2>
+                <p>
+                    Lets consider an example for HeatMap: 
+                    <p>
+                    <span class="label red">Number of Subscribers</span>, 
+                    Welcome to our heatmap exploration! Let's begin by understanding the dataset we'll be working with. 
+                    <span class="label green">Our data includes information on Countries and their average subscribers for different channel types. </span>. </p>
+                </p>
+            </div>
+            
+            <div class="step" data-step="3">
+                <h2>Axes Explanation</h2>
+                <p>
+                    Before we dive into the details, let's familiarize ourselves with the axes. The <span class="label blue">X-axis</span> which is the horizontal axis represents different Channel types, while the <span class="label red">Y-axis</span>  which is the vertical axis represents different Countries. Understanding these axes is crucial for interpreting the heatmap correctly. Additionally, we provide the units beneath the axes for our numerical values. It is a good practice to order the values on the axes either alphabetically or numerically.
+                </p>
+            </div>
+            
+            <div class="step" data-step="4">
+                <h2>Legend and Colors</h2>
+                <p>
+                    Our heatmap uses a color scale to represent values. The legend on the side explains the correlation between colors and values. Darker shades typically indicate higher values, while lighter shades represent lower values of nutrition values.
+                     
+                </p>
+            </div>
+            
+            <div class="step" data-step="4">
+                <h2>Displaying the Heatmap</h2>
+                <p>
+                    Now, let's unveil the heatmap! This visual representation allows us to quickly grasp patterns and trends in our dataset. Take a moment to absorb the overall structure before we zoom in.
+                    <!--  <span class="label">Mammals</span> popular companions are: 
+                    <span class="label green">Dogs:</span> Known for their loyalty and playfulness.
+                    <span class="label green">Cats:</span> Independent and affectionate companions.
+                    <span class="label green">Mice:</span> Cute and low-maintenance pets.
+                    <span class="label green">Rabbits:</span> friendly and great for families.-->
+                </p>
+            </div>
+            
+            <div class="step" data-step="5">
+                <h2>Highlighting a Row</h2>
+                <p>
+                    To focus on specific aspects, let's highlight a single row. Notice how South Korea has most subscribers for music channels and least subscribers for entertainment channels.
+                    <!--Hightlighted part is 2nd: <span class="label">Reptiles</span> popular companions are: 
+                    <span class="label green">Snakes:</span> Fascinating reptiles with various species.
+                    <span class="label green">Geckos:</span> Unique and easy-to-care-for lizards.
+                    <span class="label green">Cats</span>-->
+                </p>
+            </div>
+            
+            <div class="step" data-step="6">
+                <h2>Highlighting a Column</h2>
+                <p>
+                    Now, let's shift our attention to a single column. Observe how the most subscribers for Music channels are from the United States and least subscribers are from Russia.
+                    <!-- Next up, <span class="label">Birds</span> with 
+                    <span class="label green">Lovebirds:</span> Colorful and social birds.
+                    <span class="label green">Canaries</span> Melodious singers with vibrant plumage.
+                    <span class="label green">Cockatiels</span> Intelligent and charming parrots.-->
+                </p>
+            </div>
+            
+            <div class="step" data-step="7">
+                <h2>Highlighting a Cell</h2>
+                <p>Zooming in even further, let's highlight a single cell. Observe how there are 34.78 million subscribers from the United Kingdom for Education channels.
+
+
+                    <!-- 
+                    Lastly, the treemap structure visualizes a "Pet Shop" hierarchy.
+                    At the top level is "Pet Shop," and within it, we have "Mammals and other two." 
+                    Inside "Mammals," we break down into "Dogs," "Cats," "Mice," and "Rabbits," 
+                    each represented proportionally in the treemap. This structure provides
+                    a clear overview of the pet shop's categories and their relationships.-->
+                </p>
+            </div>
+            
+            <div class="step" data-step="8">
+                <h2>Highlighting <span class="label blue">Min</span> and <span class="label red">Max</span> Values</h2>
+                <p>
+                    Here we can see that the United States has the most number of Music channel subscribers and Japan has the least number of Show channels subscribers.
+
+                </p>
+            </div>
+            <div class="step" data-step="9">
+                <h2>Explaining Trends</h2>
+                <p>
+                    Notice specific trends such as Music is a popular channel type in the United States whereas Film and Animation is popular in Japan.
+                </p>
+            </div>
+            <div class="step" data-step="10">
+                <h2>Conclusion</h2>
+                <p>
+                    In conclusion, our heatmap has provided us with a visual journey through our dataset. We've explored individual rows and columns, identified extremes, and uncovered trends. The heatmap is a powerful tool for data analysis and decision-making.
+
+                </p>
+            </div>
+            <div class="step" data-step="11">
+                <h2><b>Let’s now quickly check our understanding of <br>Heatmaps!  
+                </b></h2>
+                <form id="quiz-form">
+                    <ol>
+                        <li>
+                            <h6>Enter your participant ID:</h6>
+                            <input type="text" id="mochaCaffeine" name="Q0">
+                        </li>
+                        <li>
+                            <h6>In which year did Oceania have the highest population compared to other years?</h6>
+                            <input type="radio" id="year1" name="Q1" value="2000">
+                            <label for="year1">2000</label><br>
+                            <input type="radio" id="year2" name="Q1" value="2020">
+                            <label for="year2">2020</label><br>
+                            <input type="radio" id="year3" name="Q1" value="2015">
+                            <label for="year3">2015</label><br>
+                            <input type="radio" id="year4" name="Q1" value="1990">
+                            <label for="year4">1990</label><br>
+                        </li>
+                        <li>
+                            <h6>Which Continent had a gradual decline in population over the years?</h6>
+                            <input type="radio" id="country1" name="Q2" value="Asia">
+                            <label for="country1">Asia
+                            </label><br>
+                            <input type="radio" id="country2" name="Q2" value="Oceania">
+                            <label for="country2">Oceania</label><br>
+                            <input type="radio" id="country3" name="Q2" value="Europe">
+                            <label for="country3">Europe</label><br>
+                            <input type="radio" id="country4" name="Q2" value="Africa">
+                            <label for="country4">Africa</label><br>
+                        </li>
+                        <li>
+                            <h6>Which Continent had a higher population than Asia in 2010?</h6>
+                            <input type="radio" id="nutritional1" name="Q3" value="Africa">
+                            <label for="nutritional1">Africa</label><br>
+                            <input type="radio" id="nutritional2" name="Q3" value="Europe">
+                            <label for="nutritional2">Europe</label><br>
+                            <input type="radio" id="nutritional3" name="Q3" value="Oceania">
+                            <label for="nutritional3">Oceania</label><br>
+                            <input type="radio" id="nutritional4" name="Q3" value="Australia">
+                            <label for="nutritional4">Australia</label><br>
+                        </li>
+                        <li>
+                            <h6>How much Population did Africa have in 2020?</h6>
+                            <input type="text" id="mochaCaffeine" name="Q4">
+                        </li>
+                        <li>
+                            <h6>In which year did Australia have the least Population?</h6>
+                            <input type="text" id="mochaCaffeine" name="Q5">
+                        </li>
+                    </ol>
+                    <input type="submit" value="Submit">
+                </form>
+            </div>
+        </article>
+          
+      </section>
+      
+
+   
+    <section class="generic" id="footer">
+        <p>
+            <i>
+                This demo is created by Aditya Anavekar
+            </i>  
+        </p>
+      </section>
+    </main>
+
+<!--     <div class='debug'></div> -->
+    <script src="src/d3.5.9.1.min.js"></script>
+    <script src="src/intersection-observer.js"></script>
+    <script src="src/stickyfill.min.js"></script>
+    <script src="src/scrollama.min.js"></script>
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Serialize form data
+            const formData = new FormData(this);
+            const participantID = formData.get('Q0');
+            const jsonData = {};
+
+            // Convert form data to JSON
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Convert JSON to string
+            const jsonString = JSON.stringify(jsonData, null, 2);
+
+            // Create a Blob with the JSON string
+            const blob = new Blob([jsonString], { type: 'application/json' });
+
+            // Create a link element
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = participantID ? `participant-data-${participantID}.txt` : 'participant-data.txt';
+
+            // Append link to the body and trigger the click event
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove the link
+            document.body.removeChild(link);
+        });
+    </script>
+    
+    <script src="scrollama-settings.js"></script>
+    <script
+        src="d3-heatmap.js"></script>
+    </script>
+  </body>
+</html>
