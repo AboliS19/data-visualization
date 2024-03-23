@@ -1,27 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import * as d3 from 'd3';
 
-const Treemap = ({ data }) => {
-  const [svgRendered, setSvgRendered] = useState(false); // Set initial state to false
+const ColoringCategories = ({ data }) => {
+  const [svgRendered, setSvgRendered] = useState(false);
 
   useEffect(() => {
-    if (!svgRendered && data && data.length > 0) { // Check if data is not empty
+    if (!svgRendered && data && data.length > 0) {
       const margin = { top: 50, right: 25, bottom: 45, left: 50 };
       const width = 800 - margin.left - margin.right;
       const height = 500 - margin.top - margin.bottom;
 
-      let svg = d3.select("#treemap-container").select("svg");
+      let svg = d3.select("#color-categories").select("svg");
 
       if (svg.empty()) {
-        svg = d3.select("#treemap-container")
+        svg = d3.select("#color-categories")
           .append("svg")
           .attr("width", width + margin.left + margin.right)
           .attr("height", height + margin.top + margin.bottom)
           .append("g")
           .attr("transform", `translate(${margin.left},${margin.top})`);
       }
-
-      const colorScale = d3.scaleOrdinal(d3.schemePaired);
 
       const root = d3.hierarchy(data[0])
         .sum((d) => d.magnitude)
@@ -44,42 +42,50 @@ const Treemap = ({ data }) => {
         .append("g")
         .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
-      cell.append("rect")
+      cell.filter((d) => d.depth !== 2) // Filter out elements at depth 2
+        .append("rect")
         .attr("width", (d) => d.x1 - d.x0)
         .attr("height", (d) => d.y1 - d.y0)
         .attr("fill", (d) => {
           if (d.depth === 0) {
-            return "green";
+            return "white"; // Root category color
           } else if (d.depth === 1) {
-            return "orange";
-          } else {
-            return "yellow";
+            // Change color based on specific category titles
+            if (d.data.title === "Finance") {
+              return "lightblue";
+            } else if (d.data.title === "Shopping") {
+              return "lightgreen";
+            } else {
+              return "orange"; // Default color for other categories
+            }
           }
         })
         .attr("rx", 5)
         .attr("stroke", "black");
 
-      cell.append("text")
+      // Render text for the outermost rectangle (depth 0)
+      svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", 20)
+        .attr("text-anchor", "middle")
+        .attr("fill", "black")
+        .text(root.data.title);
+
+      cell.filter((d) => d.depth !== 2) // Filter out elements at depth 2
+        .append("text")
         .attr("x", (d) => (d.x1 - d.x0) / 2)
         .attr("y", 20)
         .attr("text-anchor", "middle")
         .attr("fill", (d) => d.depth === 0 ? "white" : "black")
         .text((d) => d.data.title);
 
-      cell.filter((d) => d.depth === 2)
-        .append("text")
-        .attr("x", (d) => (d.x1 - d.x0) / 2)
-        .attr("y", (d) => (d.y1 - d.y0) / 2 + 20)
-        .attr("text-anchor", "middle")
-        .text((d) => d.data.magnitude);
-
       setSvgRendered(true);
     }
   }, [data, svgRendered]);
 
   return (
-    <div id="treemap-container"></div>
+    <div id="color-categories"></div>
   );
 }
 
-export default Treemap;
+export default ColoringCategories;

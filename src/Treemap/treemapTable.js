@@ -11,18 +11,34 @@ const TreemapDatasetTable = ({data}) => {
     'Size',
   ];
 
-  // Create an array to flatten the treemap data for easy table rendering
+ const flattenData = (data) => {
   const flattenedData = [];
-  treemapData.forEach(category => {
-    category.children.forEach(item => {
+
+  const flattenChildren = (children) => {
+    children.forEach(item => {
       flattenedData.push({
-        // category: category.title,
         title: item.title,
         score: item.score,
         magnitude: item.magnitude
       });
+
+      if (item.children) {
+        flattenChildren(item.children);
+      }
     });
+  };
+
+  data.forEach(category => {
+    if (category.children) {
+      flattenChildren(category.children);
+    }
   });
+
+  return flattenedData;
+};
+
+const flattenedData = flattenData(treemapData);
+
 
   
 

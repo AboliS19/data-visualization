@@ -18,13 +18,19 @@ import HeatmapDatasetTable from './Heatmap/heatmapTable'; // Adjust the import p
 import { heatquizdata } from './Heatmap/heatQuizData';
 import { HeatGraphQuiz } from './Heatmap/QuizHeatmap';
 import quizColorLegend from './Heatmap/QuizcolorLegend';
-import Treemap from './Treemap'; // Import the Treemap component from its file
-import { treemapData } from './treemapdata';
-import TreemapDatasetTable from './treemapTable';
-import OuterRectangle from './OuterRectangle'; // Import the OuterRectangle component
-import TreeDivideRectangle from './TreeDivideRectangle';
-import ColoredMessage from './Heatmap/ColoredMessage';
-
+import Treemap from './Treemap/Treemap'; // Import the Treemap component from its file
+import { treemapData } from './Treemap/treemapdata';
+import TreemapVisual from './Treemap/AddDetails';
+import TreemapDatasetTable from './Treemap/treemapTable';
+import OuterRectangle from './Treemap/OuterRectangle'; // Import the OuterRectangle component
+import TreeDivideRectangle from './Treemap/TreeDivideRectangle';
+import CategoryintoSubcateg from './Treemap/CategoryIntoSubcateg';
+import Labelcategories from './Treemap/LabelCategories';
+import LabelSubCategories from './Treemap/LabelSubCategories';
+import ColoringCategories from './Treemap/ColoringCategories';
+import ColoringSubCategories from './Treemap/ColoringSubCategories';
+import Zoomin from './Treemap/ZoominCategory';
+import AddDetails from './Treemap/AddDetails';
 
 
 
@@ -62,12 +68,9 @@ class SaveData extends Component {
   // Calls the REST API to save data
   handleSaveData() {
     const { steps } = this.props;
-    // Removed gender
-    // const { participantNo } = steps;
-    // Check if 'name' and 'age' properties exist in 'steps'
+ 
     
-    const participantNo = steps && steps.participantNo ? steps.participantNo : '';
-   // const age = steps && steps.age ? steps.age.value : '';
+    // const participantNo = steps && steps.participantNo ? steps.participantNo : '';
 
     fetch('http://localhost:3000/savedata', {
       method: 'POST',
@@ -75,7 +78,7 @@ class SaveData extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        participantNo: participantNo,
+        // participantNo: participantNo,
         // age: age.value
       })
     })
@@ -162,11 +165,11 @@ class CocoBot extends Component {
               "Hello there! I'm Cocobot, designed to help you understand graphs.",
             trigger: '2'
           },
-          {
-            id: '2',
-            message: 'What is your Participant No: ?',
-            trigger: 'number'
-          },
+          // {
+          //   id: '2',
+          //   message: 'What is your Participant No: ?',
+          //   trigger: 'number'
+          // },
           // {
           //   id: 'name',
           //   user: true,
@@ -177,29 +180,29 @@ class CocoBot extends Component {
           //   message: 'Hi {previousValue}! How old are you?',
           //   trigger: 'age'
           // },
-          {
-            id: 'number',
-            user: true,
-            trigger: '2-next',
-            validator: value => {
-              if (isNaN(value)) {
-                return 'value must be a number';
-              } else if (value < 0) {
-                return 'value must be positive';
-              } else if (value > 120) {
-                return `${value}? Come on!`;
-              }
+          // {
+          //   id: 'number',
+          //   user: true,
+          //   trigger: '2-next',
+          //   validator: value => {
+          //     if (isNaN(value)) {
+          //       return 'value must be a number';
+          //     } else if (value < 0) {
+          //       return 'value must be positive';
+          //     } else if (value > 120) {
+          //       return `${value}? Come on!`;
+          //     }
 
-              return true;
-            }
-          },
+          //     return true;
+          //   }
+          // },
           // {
           //   id: '4',
           //   message: 'Thanks for the info!',
           //   trigger: '5'
           // },
           {
-            id: '2-next',
+            id: '2',
             message: " I can help you learn about Heatmaps & Treemaps today. Which graph do you want to learn about? ",
             trigger: 'graphs'
           },
@@ -971,60 +974,62 @@ class CocoBot extends Component {
           },
           
           
+
+          // display dataset in tabular form.. not done
           {
             id: 'display-treemap-table',
-            component: <TreemapDatasetTable data={treemapData} />, // <HeatmapDatasetTable data={heatmapData} />,
+            message:"<INSERT TABLE HERE>",
+            // component: <TreemapDatasetTable data={treemapData} />, // <HeatmapDatasetTable data={heatmapData} />,
             trigger: 'next-continue-treemap'
           },
 
           
           {id:'next-continue-treemap',
           options: [
-            { value: 'Yes, please continue', label: 'Proceed', trigger: 'treemap-example' },
+            { value: 'Yes, please continue', label: 'Proceed', trigger: 'show-treemap-visual' },
           ]
           },
 
           {
-            id: 'treemap-example',
+            id: 'show-treemap-visual',
             component: <Treemap data={treemapData} />,
-            trigger:  'treemap-content'
+            trigger: 'treemap-content-2'
           },
-
           {
-            id: 'treemap-content',
+            id: 'treemap-content-2',
             message: "A treemap is like a visual hierarchy where categories are represented by rectangles, and the size of each rectangle corresponds to the quantity or importance of that category. It's a simple and effective way to show proportions and relationships between different groups of data.",
-            trigger: 'learn-tree-text'
-          },
-
-          {
-            id: 'learn-tree-text',
-            message: " Select what do you want to learn about ?",
             trigger: 'learn-tree-options'
           },
 
-
-          {id:'learn-tree-options',
-          options: [
-           {value: "Visual Heirarchy", label: "Visual Heirarchy", trigger:'treemap-example'},
-           {value: "Outer Rectangle", label: "Outer Rectangle", trigger:'show-outer-rectangle'},
-           {value: "Divide Rectangle", label: "Divide Rectangle", trigger:'display-divide-rectangle'},
-           {value: "Color(category)", label: "Color(sub-category)", trigger:'next-continue-treemap'},
-           {value: "Label", label: "Label", trigger:'next-continue-treemap'},
-           {value: "Label(sub-category)", label: "Label(sub-category)", trigger:'next-continue-treemap'},
-         ]
-       },
           {
-            id:"tree-step-2-text",
-            message:"successful",
-            trigger:'tree-step-2',
+            id: 'learn-tree',
+            message:"Select what do you want to learn about next? ",
+            trigger: 'learn-tree-options'
           },
           
           {
-            id: 'tree-step-2',
+            id: 'learn-tree-options',
             options: [
-              { value: 'Yes, please continue', label: 'Proceed', trigger: 'outer-rectangle' },
+              // { value: "Visual ", label: "Visual ", trigger: 'show-treemap-visual' },
+              { value: "Outer Rectangle", label: "Outer Rectangle", trigger: 'show-outer-rectangle' },
+              { value: "Divide Rectangle", label: "Divide Rectangle", trigger: 'display-divide-rectangle' },
+              { value: "Divide Category into Subcategory", label: "Divide Category into Subcategory", trigger: 'CategoryintoSubcateg' },
+              { value: "Label Categories", label: "Label Categories", trigger: 'Label-Categories' },
+              { value: "Label(sub-category)", label: "Label(sub-category)", trigger: 'Label-Sub-Categories' },
+              { value: "Coloring Categories", label: " Coloring Categories", trigger: 'Coloring-Categories' },
+              { value: "Coloring(sub-category)", label: "Coloring(sub-category)", trigger: 'Coloring-Sub-Categories' },
+              { value: "Zoom In on a category", label: "Zoom In on a category", trigger: 'Zoom-in' },
+              { value: "Add Details", label: "Add Details", trigger: 'Add-details' },
+              { value: 'Skip All', label: 'Skip All', trigger: 'skip-all-tree' }
+
             ]
           },
+          // {
+          //   id: 'tree-step-2',
+          //   options: [
+          //     { value: 'Yes, please continue', label: 'Proceed', trigger: 'outer-rectangle' },
+          //   ]
+          // },
         
           // Outer rectangle
           {
@@ -1035,7 +1040,7 @@ class CocoBot extends Component {
           {
             id: 'outer-rectangle',
             message: "Let's first draw a large rectangle. This rectangle serves as the outer boundary of our treemap, providing a canvas for the visual representation of our data.",
-            trigger: 'learn-tree-options'
+            trigger: 'learn-tree'
           },
           
 
@@ -1048,53 +1053,110 @@ class CocoBot extends Component {
           {
             id: 'divide-rectangle',
             message: "Let's now divide the outer rectangle into smaller rectangles based on the proportions of the Category values. The larger the Category, the larger the corresponding rectangle. This division reflects the hierarchy of our data.",
-            trigger: 'learn-tree-options'
+            trigger: 'learn-tree'
           },
 
+          //divide category into subcategory
+          {
+            id:'CategoryintoSubcateg',
+            component: <CategoryintoSubcateg data={treemapData} />,
+            trigger: 'text-CategoryintoSubcateg'
+          },
 
+          {
+            id: 'text-CategoryintoSubcateg',
+            message: "Let's now divide the Category rectangles into smaller Sub rectangles based on the proportions of the Category values. The larger the Category, the larger the corresponding rectangle. This division reflects the hierarchy of our data. ",
+            trigger: 'learn-tree'
+          },
+
+          //Label catgeories
+          {
+            id:'Label-Categories',
+            component: <Labelcategories data={treemapData} />,
+            trigger: 'text-Label-Categories'
+          },
+          {
+            id: 'text-Label-Categories',
+            message: "Now, let's label the rectangles with the names of Categories. The category labels should have lesser font size than that of the title. This step enhances the interpretability of the treemap.",
+            trigger: 'learn-tree'
+          },
+
+          //Label subcatgeories
+          {
+            id:'Label-Sub-Categories',
+            component: <LabelSubCategories data={treemapData} />,
+            trigger: 'text-Label-Sub-Categories'
+          },
+          {
+            id: 'text-Label-Sub-Categories',
+            message: " Now, let's label the rectangles with the names of Sub-Categories. If a rectangle is divided, provide labels for each subcategory. The sub-category labels should have lesser font size than that of the category labels.  If the Subcategory is small in size avoid labeling in case the label does not fit in the rectangle. This step enhances the interpretability of the treemap. ",
+            trigger: 'learn-tree'
+          },
+
+          //Coloring categories
+          {
+            id:'Coloring-Categories',
+            component: <ColoringCategories data={treemapData} />,
+            trigger: 'text-Coloring-Categories'
+          },
+          {
+            id: 'text-Coloring-Categories',
+            message: " Now let us bring the treemap to life by using distinct colors to fill each rectangle. Assign colors to represent different Categories. This visual element adds clarity and helps distinguish between the Categories.",
+            trigger: 'learn-tree'
+          },
+
+          //Coloring Sub categories
+          {
+            id:'Coloring-Sub-Categories',
+            component: <ColoringSubCategories data={treemapData} />,
+            trigger: 'text-Coloring-Sub-Categories'
+          },
+         
+          {
+            id: 'text-Coloring-Sub-Categories',
+            message: " Now let us use distinct colors to fill each sub-category. Assign color hues based on size of the sub-category. Lighter colors represent smaller size and darker color represents bigger size. This visual element adds clarity and helps distinguish between the Sub-Categories.",
+            trigger: 'learn-tree'
+          },
+
+          {
+            id:'Zoom-in',
+            component: <Zoomin data={treemapData} />,
+            trigger: 'text-Zoom-in'
+          },
+          {
+            id: 'text-Zoom-in',
+            message: "Lets now zoom in on a specific category to explore it in detail. This allows for a closer examination of the variations within that particular category and its sub-categories. ",
+            trigger: 'learn-tree'
+          },
+
+          {
+            id:'Add-details',
+            component: <AddDetails data={treemapData} />,
+            trigger: 'text-Add-details'
+          },
+          {
+            id: 'text-Add-details',
+            message: "Let us add details such as numerical values, percentages, or other annotations for ratings and sizes within the rectangles. This supplementary information enriches the viewer's understanding of the dataset.",
+            trigger: 'learn-tree'
+          },
+
+          {
+            id:'skip-all-tree',
+            component: <Treemap data={treemapData} />,
+            trigger: 'skip-all-tree-text'
+          },
+          {
+            id:"skip-all-tree-text",
+            message:'In Conclusion, Treemaps are powerful tools for visualizing hierarchical data. Enjoy exploring your data!',
+            end: true
+          },
+
+         
+          
           
          
 
-          // {
-          //   id: 'next-continue-twolevel',
-          //   options: [
-          //     { value: 'Yes, please continue', label: 'Proceed', trigger: 'update' },
-          //   ]
-          // },
         
-          // {
-          //   id: 'treemap-example',
-          //   component: <Treemap data={treemapData} />,
-          //   trigger: 'learnmore-treemap'
-          // },
-
-          // {
-          //   id:'data-heirarchy',
-          //   component: "",
-          //   trigger:
-          // },
-
-          // {
-          //   id:'learnmore-treemap',
-          //   message: " Select what do you want ot leanr about",
-          //   trigger:"learn-options-tree"
-
-          // },
-          
-          // {
-          //   id: 'learn-options-tree',
-          //   options: [
-          //     { value: 'Axes', label: 'Axes', trigger: 'learn-more-axes' },
-          //     { value: 'Color Legend', label: 'Color Legend', trigger: 'learn-more-legend' },
-          //     { value: 'Highlight Min & Max Values', label: 'Highlight Min & Max Values', trigger: 'learn-more-min-max' },
-          //     { value: 'Highlight Row', label: 'Highlight Row', trigger: 'highlight-row' },
-          //     { value: 'Highlight Column', label: 'Highlight Column', trigger: 'highlight-column' },
-          //     { value: 'Highlight Cell', label: 'Highlight Cell', trigger: 'highlight-cell' },
-          //     { value: 'Heatmap Trends', label: 'Heatmap Trends', trigger: 'heat-trends-example' },
-          //     { value: 'Skip All', label: 'Skip All', trigger: 'next-steps' }
-          //   ],
-          // },
-
         
           {
             id: 'update',
@@ -1111,7 +1173,7 @@ class CocoBot extends Component {
           {
             id: 'end-message',
             message: 'Great! If you ever want to revisit or explore more about heatmaps, feel free to reach out. Happy data visualizing!',
-            // trigger: end
+           end: true
           },
           {
             id: 'save-data',

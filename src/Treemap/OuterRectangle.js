@@ -32,16 +32,16 @@ const OuterRectangle = ({ rendered }) => {
         .attr("stroke-width", 2);
 
       // Adding CSS properties for the outermost rectangle
-      outerRectangle.style("fill", "green");
+      outerRectangle.style("fill", "white");
       outerRectangle.style("opacity", "0.9"); // Example CSS property, adjust as needed
       
-      // Add text label
-      svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height / 10)
-        .attr("text-anchor", "middle")
-        .attr("fill", "white")
-        .text("Google Play Store");
+      // // Add text label
+      // svg.append("text")
+      //   .attr("x", width / 2)
+      //   .attr("y", height / 10)
+      //   .attr("text-anchor", "middle")
+      //   .attr("fill", "black")
+      //   .text("Google Play Store");
 
     }
   }, [rendered]);

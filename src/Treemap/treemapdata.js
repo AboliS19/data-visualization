@@ -13,7 +13,7 @@
           {
             title: "Homework",
             score: 4.3,
-            magnitude: 10,
+            magnitude: 5.2,
           },
           {
             title: "Khan Academy",
@@ -33,12 +33,12 @@
           {
             title: "PayPal",
             score: 4.3,
-            magnitude: 27,
+            magnitude: 47,
           },
           {
             title: "US Bank",
             score: 4.1,
-            magnitude: 20,
+            magnitude: 50,
           },
           {
             title: "TrueMoney",
@@ -57,12 +57,12 @@
           },
           {
             title: "Walmart",
-            score: 0.6,
+            score: 4.4,
             magnitude: 18,
           },
           {
             title: "Target",
-            score: 0.5,
+            score: 4.1,
             magnitude: 17,
           },
         ],
