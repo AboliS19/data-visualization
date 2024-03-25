@@ -71,8 +71,9 @@ figure {
 }
 #avicii_viz{
         
-    width: 750px;
-    float: right;
+    position: relative;
+  width: 1200px; /* Adjust based on your requirements */
+  height: 600px; 
 }
 
 

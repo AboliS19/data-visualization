@@ -10,6 +10,66 @@
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap" rel="stylesheet"> 
       <link rel="stylesheet" href="style.css" />
+      <style>
+       
+
+        form {
+            width: 380px; /* Adjust width as needed */
+    margin: auto; /* Center horizontally */
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    font-size: 14px;
+        }
+
+        
+
+        ol {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            width: auto;
+            margin-bottom: 20px;
+        }
+
+        form h6 {
+            width: auto;
+            font-weight: bold;
+            font-size: 16px;
+            border-right: none;
+        }
+        
+
+        input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        input[type="text"] {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ff884d;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #ff884d;
+        }
+    </style>
   </head>
 
   <body>
@@ -51,15 +111,15 @@
                 </p>
             </div>
             
-            <div class="step" data-step="2">
+            <!--<div class="step" data-step="2">
                 <h2>Define Data Hierarchy</h2>
                 <p>
                     Our first step is to identify the hierarchical structure of the data. We have the different app categories and then different apps in those categories each associated with a rating and size value. 
                 
                 </p>
-            </div>
+            </div>-->
             
-            <div class="step" data-step="3">
+            <div class="step" data-step="2">
                 <h2>Draw Outer Rectangle</h2>
                 <p>
                     Let's first draw a large rectangle. This rectangle serves as the outer boundary of our treemap, providing a canvas for the visual representation of our data.
@@ -67,7 +127,7 @@
                 </p>
             </div>
             
-            <div class="step" data-step="4">
+            <div class="step" data-step="3">
                 <h2>Divide Rectangle</h2>
                 <p>
                     Let's now divide the outer rectangle into smaller rectangles based on the proportions of the Category values. The larger the Category, the larger the corresponding rectangle. This division reflects the hierarchy of our data.
@@ -75,41 +135,41 @@
                 </p>
             </div>
 
-            <div class="step" data-step="5">
+            <div class="step" data-step="4">
                 <h2>Divide Category into Sub-Category</h2>
                 <p>
                     Let's now divide the Category rectangles into smaller Sub rectangles based on the proportions of the Category values. The larger the Category, the larger the corresponding rectangle. This division reflects the hierarchy of our data.
 
                 </p>
             </div>
-            <div class="step" data-step="6">
+            <div class="step" data-step="5">
                 <h2>Label Categories</h2>
                 <p>
                     Now, let's label the rectangles with the names of Categories and Apps. If a rectangle is divided, provide labels for each subcategory. This step enhances the interpretability of the treemap.
                 </p>
             </div>
-            <div class="step" data-step="7">
-                <h2>Label Categories</h2>
+            <div class="step" data-step="6">
+                <h2>Label Sub Categories</h2>
                 <p>
                     Now, let's label the rectangles with the names of Sub-Categories. If a rectangle is divided, provide labels for each subcategory. The sub-category labels should have lesser font size than that of the category labels.  If the Subcategory is small in size avoid labelling in case the label does not fit in the rectangle. This step enhances the interpretability of the treemap.
                 </p>
             </div>
             
-            <div class="step" data-step="8">
+            <div class="step" data-step="7">
                 <h2>Coloring Categories</h2>
                 <p>
                     Now let us bring the treemap to life by using distinct colors to fill each rectangle. Assign colors to represent different Categories. This visual element adds clarity and helps distinguish between the Categories.
                 </p>
             </div>
 
-            <div class="step" data-step="9">
+            <div class="step" data-step="8">
                 <h2>Coloring Sub-Categories</h2>
                 <p>
                     Now let us use distinct colors to fill each sub-category. Assign color hues based on size of the sub-category. Lighter colors represent smaller size and darker color represents bigger size. This visual element adds clarity and helps distinguish between the Sub-Categories.
                 </p>
             </div>
             
-            <div class="step" data-step="10">
+            <div class="step" data-step="9">
                 <h2>Zoom In on a category</h2>
                 <p>
                     Lets now zoom in on a specific category to explore it in detail. This allows for a closer examination of the variations within that particular category. 
@@ -117,15 +177,76 @@
                 </p>
             </div>
             
-            <div class="step" data-step="11">
+            <div class="step" data-step="10">
                 <h2>Add Details</h2>
                 <p>
                     Let us add details such as numerical values, percentages, or other annotations for ratings and sizes within the rectangles. This supplementary information enriches the viewer's understanding of the dataset.
                 </p>
             </div>
-            <div class="step" data-step="12">
+            <div class="step" data-step="11">
                 <h2>In Conclusion</h2>
                 <p>Treemaps are powerful tools for visualizing hierarchical data. Enjoy exploring your data! </p>
+            </div>
+            <div class="step" data-step="12">
+                <h2><b>Let’s now quickly check our understanding of <br>Treemaps!  
+                </b></h2>
+                <form id="quiz-form">
+                    <ol>
+                        <li>
+                            <h6>Enter your participant ID:</h6>
+                            <input type="text" id="mochaCaffeine" name="Q0">
+                        </li>
+                        <li>
+                            <h6>Which sub-genre had the highest revenue in the Mystery Genre? </h6>
+                            <input type="radio" id="year1" name="Q1" value="Spy">
+                            <label for="year1">Spy</label><br>
+                            <input type="radio" id="year2" name="Q1" value="True Crime">
+                            <label for="year2">True Crime</label><br>
+                            <input type="radio" id="year3" name="Q1" value="Crime">
+                            <label for="year3">Crime</label><br>
+                            <input type="radio" id="year4" name="Q1" value="1990">
+                            <label for="year4">1990</label><br>
+                        </li>
+                        <li>
+                            <h6>Which genre had the highest revenue overall?</h6>
+                            <input type="radio" id="country1" name="Q2" value="Childrens Books">
+                            <label for="country1">Childrens Books</label><br>
+                            <input type="radio" id="country2" name="Q2" value="Mystery">
+                            <label for="country2">Mystery</label><br>
+                            <input type="radio" id="country3" name="Q2" value="Non Fiction">
+                            <label for="country3">Non Fiction</label><br>
+                            <input type="radio" id="country4" name="Q2" value="Arts and Photography">
+                            <label for="country4">Arts and Photography</label><br>
+                        </li>
+                        <li>
+                            <h6>Which other non fiction sub-genre had more revenue than Fitness?</h6>
+                            <input type="radio" id="nutritional1" name="Q3" value="History">
+                            <label for="nutritional1">History</label><br>
+                            <input type="radio" id="nutritional2" name="Q3" value="Health">
+                            <label for="nutritional2">Health</label><br>
+                            <input type="radio" id="nutritional3" name="Q3" value="Home">
+                            <label for="nutritional3">Home</label><br>
+                            <input type="radio" id="nutritional4" name="Q3" value="Fashion">
+                            <label for="nutritional4">Fashion</label><br>
+                        </li>
+                        <li>
+                            <h6>Which sub genre had the lowest revenue overall?</h6>
+                            <input type="text" id="mochaCaffeine" name="Q4">
+                        </li>
+                        <li>
+                            <h6>What percentage is Fashion of  the Non Fiction Genre?</h6>
+                            <input type="radio" id="nutritional1" name="Q5" value="50">
+                            <label for="nutritional1">50</label><br>
+                            <input type="radio" id="nutritional2" name="Q5" value="20">
+                            <label for="nutritional2">20</label><br>
+                            <input type="radio" id="nutritional3" name="Q5" value="35">
+                            <label for="nutritional3">35</label><br>
+                            <input type="radio" id="nutritional4" name="Q5" value="75">
+                            <label for="nutritional4">75</label><br>
+                        </li>
+                    </ol>
+                    <input type="submit" value="Submit">
+                </form>
             </div>
         </article>
           
@@ -149,5 +270,39 @@
     <script src="data/aviciiTimData.js"></script>
     <script src="d3-animations.js"></script>
     <script src="scrollama-settings.js"></script>
+    <script>
+        document.getElementById('quiz-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Serialize form data
+            const formData = new FormData(this);
+            const participantID = formData.get('Q0');
+            const jsonData = {};
+
+            // Convert form data to JSON
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Convert JSON to string
+            const jsonString = JSON.stringify(jsonData, null, 2);
+
+            // Create a Blob with the JSON string
+            const blob = new Blob([jsonString], { type: 'application/json' });
+
+            // Create a link element
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = participantID ? `TreeMap-participant-data-${participantID}.txt` : 'participant-data.txt';
+
+            // Append link to the body and trigger the click event
+            document.body.appendChild(link);
+            link.click();
+
+            // Remove the link
+            document.body.removeChild(link);
+        });
+    </script>
+    
   </body>
 </html>

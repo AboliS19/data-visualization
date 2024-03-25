@@ -324,7 +324,7 @@ const svg2 = d3.select("#legend-container")
             
             
             svg.append("image")
-            .attr("xlink:href", "selection.jpg") // Set the path to your image
+            .attr("xlink:href", "Table.jpeg") // Set the path to your image
             .attr("class", "dataset")
             .attr("x", 50)  // Set the x-coordinate of the top-left corner of the image
             .attr("y", 50)  // Set the y-coordinate of the top-left corner of the image

@@ -293,7 +293,7 @@
             // Create a link element
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
-            link.download = participantID ? `participant-data-${participantID}.txt` : 'participant-data.txt';
+            link.download = participantID ? `Heatmap-participant-data-${participantID}.txt` : 'participant-data.txt';
 
             // Append link to the body and trigger the click event
             document.body.appendChild(link);

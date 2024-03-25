@@ -13,7 +13,7 @@ const data = [
           {
             title: "Homework",
             score: 4.3,
-            magnitude: 10,
+            magnitude: 5.2,
           },
           {
             title: "Khan Academy",
@@ -34,12 +34,12 @@ const data = [
           {
             title: "PayPal",
             score: 4.3,
-            magnitude: 27,
+            magnitude: 47,
           },
           {
             title: "US Bank",
             score: 4.1,
-            magnitude: 20,
+            magnitude: 50,
           },
           {
             title: "TrueMoney",
@@ -64,7 +64,108 @@ const data = [
           {
             title: "Target",
             score: 4.1,
-            magnitude: 17,
+            magnitude: 24,
+          },
+        ],
+      },
+    ],
+  },
+];
+const data2 = [
+  {
+    title: "Genre Revenue",
+    children: [
+      {
+        title: "Arts and Photography",
+        children: [
+          {
+            title: "How to Craft",
+            magnitude: 2711,
+          },
+          {
+            title: "Coffee-table",
+            magnitude: 2309,
+          },
+        ],
+      },
+      {
+        title: "Childrens books",
+        children: [
+          {
+            title: "Baby Books",
+            magnitude: 16092,
+          },
+          {
+            title: "Age 3-5",
+            magnitude: 24514,
+          },
+        ],
+      },
+      {
+        title: "Computers and Internet",
+        children: [
+          {
+            title: "Troubleshooting",
+            magnitude: 4527,
+          },
+        ],
+      },
+      {
+        title: "Mystery",
+        children: [
+          {
+            title: "Crime",
+            magnitude: 11186,
+          },
+          {
+            title: "True crime",
+            magnitude: 8790,
+          },
+          {
+            title: "Spy",
+            magnitude: 3809,
+          },
+        ],
+      },
+      {
+        title: "NonFiction",
+        children: [
+          {
+            title: "Health",
+            magnitude: 3293,
+          },
+          {
+            title: "Fitness",
+            magnitude: 6891,
+          },
+          {
+            title: "History",
+            magnitude: 1131,
+          },
+          {
+            title: "Fashion",
+            magnitude: 7315,
+          },
+          {
+            title: "Home",
+            magnitude: 22612,
+          },
+          {
+            title: "Sports",
+            magnitude: 8009,
+          },
+        ],
+      },
+      {
+        title: "Romance",
+        children: [
+          {
+            title: "Teen",
+            magnitude: 6205,
+          },
+          {
+            title: "Young Adult",
+            magnitude: 25193,
           },
         ],
       },
