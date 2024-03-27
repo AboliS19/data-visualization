@@ -397,6 +397,35 @@ function updateTreemap(index) {
           .filter(function(d) { return d.depth === 2; }) 
           .attr("fill", "black")
           ;
+
+          svg2.selectAll(".sub-label")
+          .style("opacity", (d) => d.data.magnitude < 5000 ? "0" : "1")
+    .style("fill", (d) =>{
+      if(d.data.title == "Baby Books"){
+        return "black";
+      }
+      else{
+        if(d.data.magnitude<11100){
+          return "black";
+        } 
+        else{return "white";}
+      }
+    } );
+
+    svg2.selectAll(".magnitude-label")
+          .style("opacity", (d) => d.data.magnitude < 5000 ? "0" : "1")
+    .style("fill", (d) =>{
+      if(d.data.title == "Baby Books"){
+        return "black";
+      }
+      else{
+        if(d.data.magnitude<11100){
+          return "black";
+        } 
+        else{return "white";}
+      }
+    } );
+    svg.append("text")
   
     
         
