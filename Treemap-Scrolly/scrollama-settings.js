@@ -60,11 +60,11 @@
                 break;
             case 1:
                 toolTipState = 'title score';   
-                    updateTreemap(1);
+                    updateTreemap(13);
                 break;
             case 2:
                 toolTipState = 'title score magnitude';
-                    updateTreemap(2);
+                    updateTreemap(1);
                 break;
             case 3:
                 toolTipState = 'title score magnitude';

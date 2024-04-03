@@ -25,6 +25,17 @@ const svg2 = d3.select("#avicii_viz")
   .append("g")
   .attr("transform", `translate(${margin.left },${margin.top})`);
 
+  const svg3 = d3.select("#avicii_viz").append("image")
+            .attr("xlink:href", "treemapDataset.png") // Set the path to your image
+            .attr("class", "dataset")
+            .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .style("position", "absolute") // Set position to absolute
+  .style("left", "250px") // Adjust these values based on your margin setup
+  .style("top", "0px") // Adjust these values based on your margin setup
+  .append("g")
+  .attr("transform", `translate(${margin.left },${margin.top})`);
+
   
   const financeCategory = data[0].children.find(category => category.title === "Finance");
   const financeMin = Math.min(...financeCategory.children.map(child => child.magnitude));
@@ -133,6 +144,7 @@ const financeColorScale = d3.scaleSequential()
     .attr("transform", (d) => `translate(${d.x0},${d.y0})`);
 
     cell.append("rect")
+    .data(root.descendants())
     .attr("width", (d) => d.x1 - d.x0)
     .attr("height", (d) => d.y1 - d.y0)
     .attr("fill", (d) => {
@@ -232,7 +244,7 @@ const financeColorScale = d3.scaleSequential()
     .attr("y", 30)
     .attr("text-anchor", "middle")
     .attr("class", "sub-label")
-    .style("fill", (d) => d.data.magnitude<21? "black":"black")
+    .style("fill", (d) => d.data.magnitude<21? "black":"white")
     .style("font-size", "14px")
     .style("opacity", (d) => d.data.magnitude < 6 ? "0" : "1")
     .text((d) => d.data.title);
@@ -276,17 +288,17 @@ const financeColorScale = d3.scaleSequential()
     .attr("x", (d) => (d.x1 - d.x0) / 2)
     .attr("y", 30)
     .attr("text-anchor", "middle")
-    .attr("class", "sub-label")
+    .attr("class", "sub-label2")
     .style("font-size", "14px")
-    .style("opacity", (d) => d.data.magnitude < 5000 ? "0" : "1")
-    .style("fill", (d) => d.data.magnitude<11100? "black":"white")
+    .style("opacity", (d) => d.data.magnitude > 5000 ? "1" : "0")
+    .style("fill", (d) => d.data.magnitude<11100 || d.data.magnitude == 16092? "black":"white")
     .text((d) => d.data.title);
     
 
   // Add labels for magnitudes
   cell2.filter((d) => d.depth === 2)
     .append("text")
-    .attr("class", "magnitude-label")
+    .attr("class", "magnitude-label2")
     .attr("x", (d) => (d.x1 - d.x0) / 2)
     .attr("y", (d) => (d.y1 - d.y0) / 2+20)
     .attr("text-anchor", "middle")
@@ -393,10 +405,8 @@ function updateTreemap(index) {
           );
 
 
-          svg.selectAll("text")
-          .filter(function(d) { return d.depth === 2; }) 
-          .attr("fill", "black")
-          ;
+          svg.selectAll(".sub-label") 
+          .attr("fill", (d) => d.data.magnitude<21? "black":"white");
 
           svg2.selectAll(".sub-label")
           .style("opacity", (d) => d.data.magnitude < 5000 ? "0" : "1")
@@ -425,35 +435,45 @@ function updateTreemap(index) {
         else{return "white";}
       }
     } );
-    svg.append("text")
+    //svg.append("text")
   
     
         
         if(index ===0){
-          svg.style("visibility", "visible");
-          svg2.style("visibility", "hidden");
-          d3.selectAll("rect") 
+          svg.selectAll("rect") 
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
           .attr("display", "block"); 
-          svg.selectAll("text") 
-          .filter(function(d) { return d.depth === 1 || d.depth === 2; })
-          
+          d3.selectAll("text") 
+          .data(root.descendants())
+          .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
           .attr("display", "block");
-          svg.selectAll(".magnitude-label") 
-          .attr("display", "block");
-          svg.selectAll(".sub-label")
-          .style("fill", (d) => d.data.magnitude<21? "black":"white");
-
         }
         if(index===1){
-          svg.style("visibility", "hidden");
+          //svg.selectAll("rect").attr("visibility", "hidden");
+    //svg.selectAll("text").attr("visibility", "hidden");
+    svg.selectAll("rect")
+    .filter(function(d) { return d.depth !=0; }) 
+    .attr("display", "none"); 
+    svg.selectAll(".magnitude-label")
+    .attr("display", "none"); 
+    svg.selectAll(".sub-label")
+    .attr("display", "none"); 
+    d3.selectAll("text") 
+          .data(root.descendants())
+          .filter(function(d) { return d.depth === 1; }) 
+          .attr("display", "none");
+
         }
         if(index ===2){
-          svg.style("visibility", "visible");
-          d3.selectAll("rect") 
+          svg.selectAll("rect").style("display", "block");
+    //svg.selectAll("text").style("display", "block");
+
+          svg.attr("visibility", "visible");
+          svg.selectAll("rect") 
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
           .attr("display", "none"); 
           d3.selectAll("text") 
+          .data(root.descendants())
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
           .attr("display", "none");
 
@@ -465,9 +485,11 @@ function updateTreemap(index) {
         }
         if(index ===4){
           d3.selectAll("rect") 
+          .data(root.descendants())
           .filter(function(d) { return d.depth === 2; }) 
           .attr("display", "block"); 
           d3.selectAll("text") 
+          .data(root.descendants())
           .filter(function(d) { return d.depth === 1; }) 
           .attr("display", "none");
         }
@@ -491,6 +513,7 @@ function updateTreemap(index) {
           svg.selectAll(".magnitude-label") 
           .attr("display", "none");
           d3.selectAll("rect")
+          .data(root.descendants())
           .filter(function(d) { return d.depth === 2; })
           .attr("display", "block");
         }
@@ -504,7 +527,7 @@ function updateTreemap(index) {
         }
         if (index==8){
           svg.selectAll(".sub-label") 
-          .filter(function(d) { return d.depth === 2; }) 
+          .data(root.descendants())
           .style("fill", (d) => d.data.magnitude<21? "black":"white")
           .attr("display", "block");
           d3.selectAll("rect")
@@ -513,6 +536,7 @@ function updateTreemap(index) {
         }
         if(index ===9){
           d3.selectAll(".magnitude-label") 
+          .data(root.descendants())
           .attr("display", "none");
           const mainSvg = d3.select("#avicii_viz").select("svg");
 
@@ -541,14 +565,19 @@ function updateTreemap(index) {
         d3.selectAll(".magnitude-label") 
           .attr("display", "block");
         }
+        if(index ===11){
+          d3.selectAll(".magnitude-label") 
+          .style("visibility", "visible");
+          }
         if (index === 12) {
           svg.style("visibility", "hidden");
           svg2.style("visibility", "visible");
-          svg2.selectAll("text").attr("fill","black");
+          svg2.selectAll(".magnitude-label2").style("visibility", "hidden");
       } else {
           svg.style("visibility", "visible");
           svg2.style("visibility", "hidden");
       }
+      
 
 
     
