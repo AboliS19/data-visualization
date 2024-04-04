@@ -25,16 +25,22 @@ const svg2 = d3.select("#avicii_viz")
   .append("g")
   .attr("transform", `translate(${margin.left },${margin.top})`);
 
-  const svg3 = d3.select("#avicii_viz").append("image")
-            .attr("xlink:href", "treemapDataset.png") // Set the path to your image
-            .attr("class", "dataset")
-            .attr("width", width + margin.left + margin.right)
+  const imageSvg = d3.select("#avicii_viz")
+  .append("svg")
+  .attr("width", width + margin.left + margin.right)
   .attr("height", height + margin.top + margin.bottom)
-  .style("position", "absolute") // Set position to absolute
-  .style("left", "250px") // Adjust these values based on your margin setup
-  .style("top", "0px") // Adjust these values based on your margin setup
-  .append("g")
-  .attr("transform", `translate(${margin.left },${margin.top})`);
+  .style("position", "absolute")
+  .style("left", "250px")
+  .style("top", "0px")
+  .style("visibility", "hidden"); // Set to hidden initially if needed
+
+// Append an image to the SVG container
+imageSvg.append("image")
+  .attr("href", "treemapDataset.png") // Use 'href' for the image source
+  .attr("width", width + margin.left + margin.right)
+  .attr("height", height + margin.top + margin.bottom)
+  .attr("x", 0) // Set the x position
+  .attr("y", 0); // Set the y position
 
   
   const financeCategory = data[0].children.find(category => category.title === "Finance");
@@ -244,7 +250,7 @@ const financeColorScale = d3.scaleSequential()
     .attr("y", 30)
     .attr("text-anchor", "middle")
     .attr("class", "sub-label")
-    .style("fill", (d) => d.data.magnitude<21? "black":"white")
+    .style("fill",  (d) => d.data.magnitude < 21 ? "black" : "white")
     .style("font-size", "14px")
     .style("opacity", (d) => d.data.magnitude < 6 ? "0" : "1")
     .text((d) => d.data.title);
@@ -258,7 +264,7 @@ const financeColorScale = d3.scaleSequential()
     .attr("y", (d) => (d.y1 - d.y0) / 2+20)
     .attr("text-anchor", "middle")
     .text((d) => d.data.magnitude)
-    .style("fill", (d) => d.data.magnitude<21? "black":"white");
+    .attr("fill", (d) => d.data.magnitude<21? "black":"white");
 
 
 
@@ -359,6 +365,40 @@ function updateTreemap(index) {
             }
           });
 
+          svg.selectAll(".sub-label")
+    .style("fill", (d) =>{
+      if(index ==0 ){
+        
+        console.log(d.data.magnitude);
+        if(d.data.magnitude<21){
+          
+          return "black";
+        } 
+        else{
+          return "white";
+        }
+      }
+      else if(index ==6){
+        return "black"; 
+        
+      }
+      else if(index >7){
+        if(d.data.magnitude<21){
+          console.log(d.data.magnitude,"blck");
+          return "black";
+        } 
+        else{
+          console.log(d.data.magnitude);
+          return "white";
+        }
+      }
+      else{
+        console.log("hi");
+        return "black";
+        
+      }
+    } )
+    .style("opacity", (d) => d.data.magnitude < 6 ? "0" : "1");
 
           svg2.selectAll("rect") 
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
@@ -405,10 +445,10 @@ function updateTreemap(index) {
           );
 
 
-          svg.selectAll(".sub-label") 
-          .attr("fill", (d) => d.data.magnitude<21? "black":"white");
+          //svg.selectAll(".sub-label") 
+          //.attr("fill", (d) => d.data.magnitude<21? "black":"white");
 
-          svg2.selectAll(".sub-label")
+          svg2.selectAll(".sub-label2")
           .style("opacity", (d) => d.data.magnitude < 5000 ? "0" : "1")
     .style("fill", (d) =>{
       if(d.data.title == "Baby Books"){
@@ -443,10 +483,11 @@ function updateTreemap(index) {
           svg.selectAll("rect") 
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
           .attr("display", "block"); 
-          d3.selectAll("text") 
-          .data(root.descendants())
-          .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
-          .attr("display", "block");
+          svg.selectAll(".magnitude-label")
+    .attr("display", "block"); 
+    svg.selectAll(".sub-label")
+    .attr("display", "block"); 
+          imageSvg.style("visibility", "hidden");
         }
         if(index===1){
           //svg.selectAll("rect").attr("visibility", "hidden");
@@ -462,19 +503,19 @@ function updateTreemap(index) {
           .data(root.descendants())
           .filter(function(d) { return d.depth === 1; }) 
           .attr("display", "none");
+          imageSvg.style("visibility", "hidden");
 
         }
         if(index ===2){
-          svg.selectAll("rect").style("display", "block");
+          //svg.selectAll("rect").style("display", "block");
     //svg.selectAll("text").style("display", "block");
 
           svg.attr("visibility", "visible");
           svg.selectAll("rect") 
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
           .attr("display", "none"); 
-          d3.selectAll("text") 
-          .data(root.descendants())
-          .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
+          d3.selectAll("rect") 
+          .filter(function(d) { return d.depth === 1; })
           .attr("display", "none");
 
         }
@@ -482,6 +523,10 @@ function updateTreemap(index) {
           d3.selectAll("rect") 
           .filter(function(d) { return d.depth === 1; })
           .attr("display", "block"); 
+          d3.selectAll("rect") 
+          .data(root.descendants())
+          .filter(function(d) { return d.depth === 2; }) 
+          .attr("display", "none");
         }
         if(index ===4){
           d3.selectAll("rect") 
@@ -498,7 +543,6 @@ function updateTreemap(index) {
           .filter(function(d) { return d.depth === 1; }) 
           .attr("display", "block");
           svg.selectAll(".sub-label") 
-          .filter(function(d) { return d.depth === 2; }) 
           .attr("display", "none");
           svg.selectAll("rect")
           .filter(function(d) { return d.depth === 2; })
@@ -507,8 +551,6 @@ function updateTreemap(index) {
         }
         if(index ===6){
           svg.selectAll(".sub-label") 
-          .filter(function(d) { return d.depth === 2; }) 
-          .style("fill",  "black")
           .attr("display", "block");
           svg.selectAll(".magnitude-label") 
           .attr("display", "none");
@@ -522,13 +564,10 @@ function updateTreemap(index) {
           .filter(function(d) { return d.depth === 2; })
           .attr("display", "none");
           svg.selectAll(".sub-label") 
-          .filter(function(d) { return d.depth === 2; }) 
           .attr("display", "none");
         }
         if (index==8){
-          svg.selectAll(".sub-label") 
-          .data(root.descendants())
-          .style("fill", (d) => d.data.magnitude<21? "black":"white")
+          svg.selectAll(".sub-label")
           .attr("display", "block");
           d3.selectAll("rect")
           .filter(function(d) { return d.depth === 2; })
@@ -536,9 +575,7 @@ function updateTreemap(index) {
         }
         if(index ===9){
           d3.selectAll(".magnitude-label") 
-          .data(root.descendants())
           .attr("display", "none");
-          const mainSvg = d3.select("#avicii_viz").select("svg");
 
         const zoom = d3.zoom()
             .scaleExtent([1, 8]) // Example scale extent
@@ -567,7 +604,7 @@ function updateTreemap(index) {
         }
         if(index ===11){
           d3.selectAll(".magnitude-label") 
-          .style("visibility", "visible");
+          .style("visibility", "hidden");
           }
         if (index === 12) {
           svg.style("visibility", "hidden");
@@ -577,11 +614,9 @@ function updateTreemap(index) {
           svg.style("visibility", "visible");
           svg2.style("visibility", "hidden");
       }
-      
-
-
-    
-    
-      
+      if (index === 13) {
+        svg.style("visibility", "hidden");
+        imageSvg.style("visibility", "visible");
+      }
     }
     
