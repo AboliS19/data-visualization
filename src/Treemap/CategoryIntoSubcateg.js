@@ -7,8 +7,8 @@ const CategoryintoSubcateg = ({ data }) => {
   useEffect(() => {
     if (!svgRendered && data && data.length > 0) {
       const margin = { top: 50, right: 25, bottom: 45, left: 50 };
-      const width = 800 - margin.left - margin.right;
-      const height = 500 - margin.top - margin.bottom;
+      const width = 1500 - margin.left - margin.right;
+      const height = 800 - margin.top - margin.bottom;
 
       let svg = d3.select("#categ-sub-categories").select("svg");
 

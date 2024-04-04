@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
 import * as d3 from 'd3';
-import ColorLegend from './QuizcolorLegend'; // Import the ColorLegend component
+import ColorLegend from './ColorLegend'; // Import the ColorLegend component
 
-const MARGIN = { top: 10, right: 5, bottom: 70, left: 150 };
+const MARGIN = { top: 20, right: 5, bottom: 80, left: 150 };
 
-export const HeatGraphQuiz = ({ data }) => {
+export const HeatGraphTrends = ({ data }) => {
   const width = 580,
     height = 470;
   const boundsWidth = width - MARGIN.right - MARGIN.left;
@@ -14,11 +14,11 @@ export const HeatGraphQuiz = ({ data }) => {
   const allXGroups = useMemo(() => [...new Set(data.map((d) => d.x))], [data]);
 
   const xScale = useMemo(() => {
-    return d3.scaleBand().range([0, boundsWidth]).domain(allXGroups).padding(0.01);
+    return d3.scaleBand().range([0, boundsWidth]).domain(allXGroups).padding(0.05);
   }, [data, width]);
 
   const yScale = useMemo(() => {
-    return d3.scaleBand().range([boundsHeight, 0]).domain(allYGroups).padding(0.01);
+    return d3.scaleBand().range([boundsHeight, 0]).domain(allYGroups).padding(0.05);
   }, [data, height]);
 
   // Calculate min and max values excluding zero values
@@ -37,7 +37,7 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
     const y = yScale(d.y);
     const width = xScale.bandwidth();
     const height = yScale.bandwidth();
-    const value = d.value.toFixed();
+   const value = d.value.toFixed();
 
     const contrastColor = d3.lab(colorScale(d.value)).l > 50 ? '#000000' : '#ffffff';
 
@@ -52,14 +52,14 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
           opacity={1}
           fill={colorScale(d.value)}
           rx={5}
-          stroke={'white'}
+          // stroke={'white'}
         />
         <text
           x={x + width / 2}
           y={y + height / 2}
           textAnchor="middle"
           dominantBaseline="middle"
-          fontSize={0} // to not dispaly the values
+          fontSize={0}
           fill={contrastColor}
         >
           {value}
@@ -87,11 +87,11 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
       </text>
       {/* Second line for the unit */}
       <text
-        x={xPos + xScale.bandwidth() / 2}
+        x={xPos + xScale.bandwidth() / 2 -2}
         y={boundsHeight + (MARGIN.bottom / 4) * 2} // Adjust the y position for the second line
         textAnchor="middle"
         dominantBaseline="middle"
-        fontSize={11} // Adjust font size for the unit
+        fontSize={12} // Adjust font size for the unit
         fill="#000" // Adjust color for the unit if needed
       >
        {unitParts} 
@@ -111,7 +111,7 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
         y={yPos + yScale.bandwidth() / 2}
         textAnchor="end"
         dominantBaseline="middle"
-        fontSize={13}
+        fontSize={12}
       >
         {name}
       </text>
@@ -123,13 +123,13 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
   const xAxisLabel = (
     <text
       x={boundsWidth / 2}
-      y={boundsHeight + MARGIN.bottom - 12}
+      y={boundsHeight + MARGIN.bottom - 7}
       textAnchor="middle"
       dominantBaseline="middle"
       fontWeight="bold"
-      fontSize={13}
+      fontSize={15}
     >
-      Population in the given years 
+     CHANNEL TYPE  
     </text>
   );
 
@@ -138,6 +138,12 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
   const yAxisLabel = (
     <text x={-MARGIN.left +120 / 2} y={boundsHeight / 45} textAnchor="middle" fontSize={15} fontWeight="bold" transform="rotate(-1800)">
       COUNTRIES
+    </text>
+  );
+  // Add title
+  const title = (
+    <text x={width / 3} y={MARGIN.top-40} textAnchor="middle" dominantBaseline="hanging" fontWeight="bold" fontSize={15}>
+     (Avg. subscribers in millions)
     </text>
   );
 
@@ -156,6 +162,7 @@ const [min, max] = d3.extent(filteredData.map(d => d.value));
           {xAxisLabel}
           {yAxisLine}
           {yAxisLabel}
+          {title}
         </g>
       </svg>
       <ColorLegend data={data} />

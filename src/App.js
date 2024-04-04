@@ -6,7 +6,7 @@ import './App.css';
 function App() {
 
 const style = {
-  width: "50%",
+  width: "100%",
   margin: "0 auto",
   marginTop: 100,
   maxWidth: 880, // Set the maximum width

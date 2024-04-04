@@ -7,8 +7,8 @@ const ColoringSubCategories = ({ data }) => {
   useEffect(() => {
     if (!svgRendered && data && data.length > 0) { // Check if data is not empty
       const margin = { top: 50, right: 25, bottom: 45, left: 50 };
-      const width = 800 - margin.left - margin.right;
-      const height = 500 - margin.top - margin.bottom;
+      const width = 1500 - margin.left - margin.right;
+      const height = 800 - margin.top - margin.bottom;
 
       let svg = d3.select("#coloring-sub-category").select("svg");
 
@@ -106,22 +106,69 @@ const ColoringSubCategories = ({ data }) => {
        .attr("y", 20)
        .attr("text-anchor", "middle")
        .attr("fill", "black")
+       .style("font-size", "18px") 
+       .style("font-weight", "bold")
        .text(root.data.title);
 
-      
-      cell.append("text")
-        .attr("x", (d) => (d.x1 - d.x0) / 2)
-        .attr("y", 20)
-        .attr("text-anchor", "middle")
-        .attr("fill", (d) => d.depth === 0 ? "white" : "black")
-        .text((d) => d.data.title);
-
-      cell.filter((d) => d.depth === 2)
-        .append("text")
-        .attr("x", (d) => (d.x1 - d.x0) / 2)
-        .attr("y", (d) => (d.y1 - d.y0) / 2 + 20)
-        .attr("text-anchor", "middle")
-        .text((d) => d.data.magnitude);
+       cell.append("text")
+       .attr("x", (d) => (d.x1 - d.x0) / 2)
+       .attr("y", 20)
+       .attr("text-anchor", "middle")
+   //   .attr("fill", (d) => d.depth === 0 ? "white" : "black")
+       .style("font-size",(d) => { if ((d) => d.depth === 1 ){
+ return "18px"
+       }
+     else{
+       return "16px"
+     }
+     })
+       .style("font-weight", "bold")
+       .style("fill", (d) => {
+         // Check if the text content is "hello"
+         if (d.data.title === "Google Play Store" ) {
+           return "white"; // Set color to red
+       }
+        else if (d.data.title === "US Bank" ) {
+             return "white"; // Set color to red
+         }
+        else if (d.data.title === "PayPal" ) {
+           return "white"; // Set color to red
+       } else if (d.data.title === "Amazon" ) {
+         return "white"; // Set color to red
+     } else if (d.data.title === "Khan Academy" ) {
+       return "white"; // Set color to red
+   }
+         else {
+             return "black"; // Set default color to black
+         }
+     })
+       .text((d) => d.data.title);
+ 
+ 
+  //    cell.filter((d) => d.depth === 2)
+  //      .append("text")
+  //      .attr("x", (d) => (d.x1 - d.x0) / 2)
+  //      .attr("y", (d) => (d.y1 - d.y0) / 2 + 20)
+  //      .attr("text-anchor", "middle")
+  //      .style("font-size", "16px") 
+  //      .style("fill", (d) => {
+  //        // Check if the text content is "hello"
+    
+  //       if (d.data.magnitude === 50 ) {
+  //            return "white"; // Set color to red
+  //        }
+  //       else if (d.data.magnitude === 47 ) {
+  //          return "white"; // Set color to red
+  //      } else if (d.data.magnitude === 22 ) {
+  //        return "white"; // Set color to red
+  //    } else if (d.data.magnitude === 21 ) {
+  //      return "white"; // Set color to red
+  //  }
+  //        else {
+  //            return "black"; // Set default color to black
+  //        }
+  //    })
+  //      .text((d) => d.data.magnitude + "M");
 
       setSvgRendered(true);
     }

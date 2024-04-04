@@ -7,8 +7,8 @@ const ColoringCategories = ({ data }) => {
   useEffect(() => {
     if (!svgRendered && data && data.length > 0) {
       const margin = { top: 50, right: 25, bottom: 45, left: 50 };
-      const width = 800 - margin.left - margin.right;
-      const height = 500 - margin.top - margin.bottom;
+      const width = 1500 - margin.left - margin.right;
+      const height = 800 - margin.top - margin.bottom;
 
       let svg = d3.select("#color-categories").select("svg");
 
@@ -65,11 +65,13 @@ const ColoringCategories = ({ data }) => {
 
       // Render text for the outermost rectangle (depth 0)
       svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", 20)
-        .attr("text-anchor", "middle")
-        .attr("fill", "black")
-        .text(root.data.title);
+      .attr("x", width / 2)
+      .attr("y", 20)
+      .attr("text-anchor", "middle")
+      .attr("fill", "black")
+      .style("font-size", "18px") 
+      .style("font-weight", "bold")
+      .text(root.data.title);
 
       cell.filter((d) => d.depth !== 2) // Filter out elements at depth 2
         .append("text")
@@ -77,6 +79,8 @@ const ColoringCategories = ({ data }) => {
         .attr("y", 20)
         .attr("text-anchor", "middle")
         .attr("fill", (d) => d.depth === 0 ? "white" : "black")
+        .style("font-size", "16px") 
+        .style("font-weight", "bold")
         .text((d) => d.data.title);
 
       setSvgRendered(true);

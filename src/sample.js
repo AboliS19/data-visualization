@@ -6,6 +6,7 @@ import { LineGraph } from './LineGraph';
 import { BarGraph } from './BarGraph';
 import { PieGraph } from './PieGraph';
 import { HeatGraph } from './Heatmap/HeatMap';
+import { HeatGraphTrends } from './Heatmap/HeatMapTrends';
 import HeatmapAxes from './Heatmap/HeatmapAxes'; // Import the HeatmapAxes component
 import ColorLegend from './Heatmap/ColorLegend'; // Import the HeatmapAxes component
 import HeatMinMaxcells from './Heatmap/HeatMinMax'; // Adjust the import path if necessary
@@ -20,7 +21,6 @@ import { HeatGraphQuiz } from './Heatmap/QuizHeatmap';
 import quizColorLegend from './Heatmap/QuizcolorLegend';
 import Treemap from './Treemap/Treemap'; // Import the Treemap component from its file
 import { treemapData } from './Treemap/treemapdata';
-import TreemapVisual from './Treemap/AddDetails';
 import TreemapDatasetTable from './Treemap/treemapTable';
 import OuterRectangle from './Treemap/OuterRectangle'; // Import the OuterRectangle component
 import TreeDivideRectangle from './Treemap/TreeDivideRectangle';
@@ -31,6 +31,8 @@ import ColoringCategories from './Treemap/ColoringCategories';
 import ColoringSubCategories from './Treemap/ColoringSubCategories';
 import Zoomin from './Treemap/ZoominCategory';
 import AddDetails from './Treemap/AddDetails';
+import { QuiztreemapData1 } from './Treemap/QuizTreeData1';
+import QTreemap1 from './Treemap/QuizTreemap1';
 
 
 
@@ -141,7 +143,7 @@ class CocoBot extends Component {
   render() {
     const { options } = this.state;
     const chatbotStyle = {
-      height: '100vh',  // Set the height to cover the entire viewport vertically
+      height: '1000vh',  // Set the height to cover the entire viewport vertically
       overflowY: 'auto', // Optional: add a scrollbar if content exceeds the viewport height
       
     };
@@ -162,7 +164,7 @@ class CocoBot extends Component {
           {
             id: '1',
             message:
-              "Hello there! I'm Cocobot, designed to help you understand graphs.",
+              "Hello there! I'm Vizbot, designed to help you understand data visualizations.",
             trigger: '2'
           },
           // {
@@ -212,15 +214,19 @@ class CocoBot extends Component {
               //{ value: 'Line Graph', label: 'Line Graph', trigger: 'line' },
               //{ value: 'Bar Graph', label: 'Bar Graph', trigger: 'bar' },
              // { value: 'Pie Graph', label: 'Pie Graph', trigger: 'pie' },
-              { value: 'Heatmap', label: 'Heatmap', trigger: 'display-dataset-table' },
-              { value: 'Treemap', label: 'Treemap', trigger: 'dataset-treemap' }
+              { value: 'Heatmap', label: 'Heatmap', trigger: 'definition-heatmap' },
+              { value: 'Treemap', label: 'Treemap', trigger: 'treemap-content-2' }
             ]
           },
           
-          
+          {
+            id: 'definition-heatmap',
+            message:"A heatmap is a graphical representation of data where values are depicted as colors on a matrix, allowing for easy visualization of patterns and trends.",
+            trigger: 'display-dataset-table',
+          },
           {
             id: 'display-dataset-table',
-            message:"Let's begin by understanding the dataset we'll be working with. Our data includes information on Countries and their average subscribers (in millions) for different channel types.",
+            message:"Welcome to our heatmap exploration! Let's begin by understanding the dataset we'll be working with. Our dataset comprises data pertaining to the average number of subscribers across various channel categories from different countries on YouTube.",
             trigger: 'after-text-table',
           },
           {id: 'after-text-table',
@@ -323,14 +329,18 @@ class CocoBot extends Component {
             component: (
               <div>
                 AXES: Before we dive into the details, let's familiarize ourselves with the axes. The {' '}
-                <span style={{ color: 'red' }}>X-axis</span> which is the horizontal axis represents different Channel Types, while the{' '}
-                <span style={{ color: 'blue' }}>Y-axis</span> which is the vertical axis represents different Countries. Understanding these axes is crucial for interpreting the heatmap correctly.
+                <span style={{ color: 'blue' }}>X-axis</span> which is the horizontal axis represents different Channel Types, while the{' '}
+                <span style={{ color: 'red' }}>Y-axis</span> which is the vertical axis represents different Countries. Understanding these axes is crucial for interpreting the heatmap correctly.
               </div>
             ),
-            trigger: 'learn-more-heat-aspect'
+            trigger: 'learn-more-axes-2'
           },
-          
-          
+         
+          {
+            id: 'learn-more-axes-2',
+          message: "Additionally, we provide the units beneath the axes for our numerical values. It is a good practice to order the values on the axes either alphabetically or numerically. For datasets with larger values, we scale the values by a factor (in this case 100,000) to enhance their readability and to avoid cluttering the chart with excessive digits.",      
+           trigger: 'learn-more-heat-aspect'
+          },
           //content added for legend
           {
             id: 'color-legend',
@@ -341,10 +351,8 @@ class CocoBot extends Component {
 
           {
             id: 'learn-more-legend',
-            message: `COLOR LEGEND: Our heatmap uses a color scale to represent values. 
-            The legend below explains the correlation between colors and values. 
-            Darker shades typically indicate higher values, while lighter shades represent lower nutrition values.`,
-            trigger: 'learn-more-legend-2',
+            message: `The legend on the side of the heatmap explains the correlation between colors and values. Darker shades typically indicate higher values, while lighter shades represent lower values. `,
+            trigger: 'learn-more-heat-aspect',
             delay: 1000 
           },
           {
@@ -388,9 +396,9 @@ class CocoBot extends Component {
             id: 'learn-more-min-max',
             component: (
               <div>
-                Here we can see that the United States has the most number of{' '}
-                <span style={{ color: 'red' }}>Music</span> channel subscribers and Japan has the least number of{' '}
-                <span style={{ color: 'blue' }}>Show</span> channel subscribers.
+                Here we can see that the United States {' '}
+                <span style={{ color: 'red' }}>Music</span> has the most number of  subscribers on average and Japanese {' '}
+                <span style={{ color: 'blue' }}>Show</span> channels have the lowest number of subscribers on average.
               </div>
             ),
             trigger: 'learn-more-heat-aspect'
@@ -405,7 +413,7 @@ class CocoBot extends Component {
           },
           {
             id: 'text-highlight-row',
-            message:"To focus on specific aspects, let's highlight a single row. Notice how South Korea has most subscribers for music channels and least subscribers for entertainment channels.  ",
+            message:"To focus on specific aspects, let's highlight a single row. Notice how South Korean music channels have the most subscribers and entertainment channels have the fewest subscribers. ",
             trigger: 'learn-more-heat-aspect'
           },
 
@@ -417,7 +425,7 @@ class CocoBot extends Component {
           },
           {
             id: 'text-highlight-column',
-            message:"Now, let's shift our attention to a single column. Observe how the most subscribers for Music channels are from the United States and least subscribers are from Russia. ",
+            message:"Now, let's shift our attention to a single column. Observe how the Music channels from the United States have the highest number of subscribers and Russian music channels have the fewest.",
             trigger: 'learn-more-heat-aspect'
           },
           {
@@ -446,13 +454,13 @@ class CocoBot extends Component {
                 
           {
             id : 'heatmap-trends',
-            message:"Notice specific trends such as Music is a popular genre in the United States whereas Film and Animation is popular in Japan.",      
+            message:" While we need to mention values inside the squares, let's remove the numerical values for now and focus on interpreting the heatmap purely based on colors. Notice specific trends such as Music channels in the United States are popular and Japanese Film and Animation channels are popular.",      
             trigger:'show-trends-heatmap'
           },
           {
             id: 'show-trends-heatmap',
-            component: <HeatGraph data={heatmapData} />, // Render the heatmap again
-            trigger: 'conclusion-message',
+            component: <HeatGraphTrends data={heatmapData} />, // Render the heatmap again
+            trigger: 'learn-more-heat-aspect',
             delay:1000
           },
           {
@@ -487,7 +495,7 @@ class CocoBot extends Component {
           //based on the following heatmap,, answer the question that follows.. just chang english
           {
             id: 'before-graph-msg',
-            message: "Q1 of 5: Based on the given heatmap,, answer the question that follows..  ",
+            message: "Based on the given heatmap, answer the question that follows..  ",
             trigger: 'display-heatmap-Q1'
           },
 
@@ -497,177 +505,109 @@ class CocoBot extends Component {
             trigger: 'ask-question-one',
             delay: 2000 
           },
-          // {
-          //   id: 'learn-more-read-options',
-          //   options: [
-          //     { value: 'yes', label: 'Yes', trigger: 'read-heatmap' },
-          //     { value: 'no', label: 'No', trigger: 'update' }
-          //   ]
-          // },
-          // {
-          //   id: 'read-heatmap',
-          //   message: 'Sure! In this heatmap, each cell represents a combination of a company and a stock. The color indicates the value for that combination. Let me demonstrate with an example:',
-          //   trigger: 'explain-heatmap-example'
-          // },
-          // {
-          //   id: 'explain-heatmap-example',
-          //   message: 'For the company "TechCorp" and stock "Stock A", the value is 100.00. The color represents the intensity of this value.',
-          //   trigger: 'ask-question-techcorp'
-          // },
+        
           
           {
             id: 'ask-question-one',
-            message: 'Q1. In which year did Oceania have the highest population compared to other years?',
+            message: 'Q1. In which year did Australia have the smallest population compared to other years?',
             trigger: 'options-one',
             delay: 2000
           },
           {
             id: 'options-one',
             options: [
-              { value: '1990', label: '1990', trigger: 'before-graph-msg-2' },
-              { value: '2000', label: '2000', trigger: 'before-graph-msg-2' },
-              { value: '2015', label: '2015', trigger: 'before-graph-msg-2' },
-              { value: '2020', label: '2020', trigger: 'before-graph-msg-2' }
+              { value: '1990', label: '1990', trigger: 'ask-question-two' },
+              { value: '2000', label: '2000', trigger: 'ask-question-two' },
+              { value: '2010', label: '2015', trigger: 'ask-question-two' },
+              { value: '2015', label: '2020', trigger: 'ask-question-two' },
+              { value: '2022', label: '2022', trigger: 'ask-question-two' }
              
             ],
           },
+        
           // {
-          //   id: 'correct-one',
-          //   message: "That's correct!",
-          //   trigger: 'before-graph-msg-2'
+          //   id: 'before-graph-msg-2',
+          //   message: "Moving onto the Q2 of 5, Based on the given heatmap, answer the question that follows..  ",
+          //   trigger: 'display-heatmap-Q2'
           // },
-          // {
-          //   id: 'incorrect-one',
-          //   message: 'Oops! That\'s incorrect.',
-          //   trigger: 'before-graph-msg-2',
-          //   delay: 1000
-          // },
-          // {
-          //   id: 'wrong-graph-msg-1',
-          //   message: "Let's try again: In which year did Oceania have the highest population compared to other years?",
-          //   trigger: 'options-one'
-          // },
-          
-          {
-            id: 'before-graph-msg-2',
-            message: "Moving onto the Q2 of 5, Based on the given heatmap,, answer the question that follows..  ",
-            trigger: 'display-heatmap-Q2'
-          },
 
-          {
-            id:'display-heatmap-Q2',
-            component: <HeatGraphQuiz data={heatquizdata} />,
-            trigger: 'ask-question-two',
-            delay: 1000 
-          },
+          // {
+          //   id:'display-heatmap-Q2',
+          //   component: <HeatGraphQuiz data={heatquizdata} />,
+          //   trigger: 'ask-question-two',
+          //   delay: 1000 
+          // },
           
           {
             id: 'ask-question-two',
-            message: 'Q2. Which Continent had a gradual decline in population over the years?',
+            message: 'Q2. Which Continent shows an incline and then a steep decline in population over the years?',
             trigger: 'options-two',
             delay: 2000
           },
           {
             id: 'options-two',
             options: [
-              { value: 'Asia', label: 'Asia', trigger: 'before-graph-msg-3' },
-              { value: 'Oceania', label: 'Oceania', trigger: 'before-graph-msg-3' },
-              { value: 'Europe', label: 'Europe', trigger: 'before-graph-msg-3' },
-              { value: 'Africa', label: 'Africa', trigger: 'before-graph-msg-3' }
+              { value: 'Asia', label: 'Asia', trigger: 'ask-question-three' },
+              { value: 'Oceania', label: 'Oceania', trigger: 'ask-question-three' },
+              { value: 'Europe', label: 'Europe', trigger: 'ask-question-three' },
+              { value: 'Africa', label: 'Africa', trigger: 'ask-question-three' },
+              { value: 'Australia', label: 'Africa', trigger: 'ask-question-three' }
             ]
           },
-          // {
-          //   id: 'correct-two',
-          //   message: "That's correct!",
-          //   trigger: 'before-graph-msg-3'
-          // },
-          // {
-          //   id: 'incorrect-two',
-          //   message: 'Oops! That\'s incorrect.',
-          //   trigger: 'before-graph-msg-3',
-          //   delay: 1000
-          // },
-          // {
-          //   id: 'wrong-graph-msg-2',
-          //   message: "Let's try again: Which Continent had a gradual decline in population over the years?",
-          //   trigger: 'options-two'
-          // },
+         
           
-          {
-            id: 'before-graph-msg-3',
-            message: "Moving onto the Q3 of 5, Based on the given heatmap, answer the question that follows..  ",
-            trigger: 'display-heatmap-Q3'
-          },
+          // {
+          //   id: 'before-graph-msg-3',
+          //   message: "Moving onto the Q3 of 5, Based on the given heatmap, answer the question that follows..  ",
+          //   trigger: 'display-heatmap-Q3'
+          // },
 
-          {
-            id:'display-heatmap-Q3',
-            component: <HeatGraphQuiz data={heatquizdata} />,
-            trigger: 'ask-question-three',
-            delay: 1000 
-          },
+          // {
+          //   id:'display-heatmap-Q3',
+          //   component: <HeatGraphQuiz data={heatquizdata} />,
+          //   trigger: 'ask-question-three',
+          //   delay: 1000 
+          // },
           
           {
             id: 'ask-question-three',
-            message: 'Q3. Which Continent had a higher population than Asia in 2010?',
+            message: 'Q3. Which Continent had a larger population than Asia in 2010?',
             trigger: 'options-three',
             delay: 1000
           },
           {
             id: 'options-three',
             options: [
-              { value: 'Africa', label: 'Africa', trigger: 'before-graph-msg-4' },
-              { value: 'Europe', label: 'Europe', trigger: 'before-graph-msg-4' },
-              { value: 'Oceania', label: 'Oceania', trigger: 'before-graph-msg-4' },
-              { value: 'Australia', label: 'Australia', trigger: 'before-graph-msg-4' }
+              { value: 'Africa', label: 'Africa', trigger: 'ask-question-four' },
+              { value: 'Europe', label: 'Europe', trigger: 'ask-question-four' },
+              { value: 'Oceania', label: 'Oceania', trigger: 'ask-question-four' },
+              { value: 'Australia', label: 'Australia', trigger: 'ask-question-four' }
             ]
           },
+  
           // {
-          //   id: 'correct-three',
-          //   message: "That's correct!",
-          //   trigger: 'before-graph-msg-4'
-          // },
-          // {
-          //   id: 'incorrect-three',
-          //   message: 'Oops! That\'s incorrect.',
-          //   trigger: 'before-graph-msg-4',
-          //   delay: 1000
-          // },
-          // {
-          //   id: 'wrong-graph-msg-3',
-          //   message: "Let's try again: Which Continent had a higher population than Asia in 2010?",
-          //   trigger: 'options-three'
+          //   id: 'before-graph-msg-4',
+          //   message: " Moving onto the Q4 of 5, Based on the given heatmap, answer the question that follows..  ",
+          //   trigger: 'display-heatmap-Q4'
           // },
 
-          {
-            id: 'before-graph-msg-4',
-            message: " Moving onto the Q4 of 5, Based on the given heatmap, answer the question that follows..  ",
-            trigger: 'display-heatmap-Q4'
-          },
-
-          {
-            id:'display-heatmap-Q4',
-            component: <HeatGraphQuiz data={heatquizdata} />,
-            trigger: 'ask-question-four',
-            delay: 1000 
-          },
+          // {
+          //   id:'display-heatmap-Q4',
+          //   component: <HeatGraphQuiz data={heatquizdata} />,
+          //   trigger: 'ask-question-four',
+          //   delay: 1000 
+          // },
           // q4 and 5
           {
             id: 'ask-question-four',
-            message: ' Q4. How much Population did Africa have in 2020? Enter a numeric value:',
+            message: 'Q4. Which Continent’s population was the closest to that of Asia in 2015? Enter a text value.',
             trigger: 'user-input4',
             delay: 1000
           },
           {
             id: 'user-input4',
             user: true,
-            validator: (value) => {
-              if (isNaN(value)) {
-                return 'Value should be a number only';
-              } else {
-                return true;
-              }
-            },
-            trigger: 'before-graph-msg-5'
+            trigger: 'ask-question-five'
           },
           // {
           //   id: 'verify-answer-four',
@@ -683,293 +623,42 @@ class CocoBot extends Component {
           // },
 
           
-          {
-            id: 'before-graph-msg-5',
-            message: "Moving onto the final question, based on the given heatmap, answer the question that follows..  ",
-            trigger: 'display-heatmap-Q5'
-          },
+          // {
+          //   id: 'before-graph-msg-5',
+          //   message: "Moving onto the final question, based on the given heatmap, answer the question that follows..  ",
+          //   trigger: 'display-heatmap-Q5'
+          // },
 
-          {
-            id:'display-heatmap-Q5',
-            component: <HeatGraphQuiz data={heatquizdata} />,
-            trigger: 'ask-question-five',
-            delay: 1000 
-          },
+          // {
+          //   id:'display-heatmap-Q5',
+          //   component: <HeatGraphQuiz data={heatquizdata} />,
+          //   trigger: 'ask-question-five',
+          //   delay: 1000 
+          // },
           {
             id: 'ask-question-five',
-            message: '5. In which year did Australia have the least Population?',
+            message: 'Q5. Amongst all continents, which continent had the lowest population in  2022?',
             trigger: 'user-input5',
             delay: 2000
           },
           {
             id: 'user-input5',
             user: true,
-            validator: (value) => {
-              if (isNaN(value)) {
-                return 'Value should be a number only';
-              } else {
-                return true;
-              }
-            },
             trigger: 'end-message'
           },
 
-          // {
-          //   id: 'options-five',
-          //   options: [
-          //     { value: '1990', label: '1990', trigger: 'end-message' },
-          //     { value: '2000', label: '2000', trigger: 'end-message' },
-          //     { value: '2010', label: '2010', trigger: 'end-message' },
-          //     { value: '2020', label: '2020', trigger: 'end-message' }
-          //   ],
-          //   delay: 2000
-          // },
-          // {
-          //   id: 'correct-five',
-          //   message: 'That\'s correct!',
-          //   trigger: 'before-graph-msg-5'
-          // },
-          // {
-          //   id: 'incorrect-five',
-          //   message: 'Oops! That\'s incorrect.',
-          //   trigger: 'end-message'
-          // },
-          // {
-          //   id: 'before-graph-msg-5',
-          //   message: "Moving onto the next question...",
-          //   trigger: 'display-heatmap-Q5',
-          //   delay: 2000
-          // },
-      
-          
-          // Similar blocks for other user input questions
-          
-
-          //COFFEE QUESTIONS
-          // {
-          //   id: 'ask-question-one',
-          //   message: ' Q1. Which of the following beverage has a low calorie count?',
-          //   trigger: 'options-one',
-          //   delay: 2000
-          // },
-          
-          // {
-          //   id: 'options-one',
-          //   options: [
-          //     { value: 'Americano ', label: 'Americano', trigger: 'correct-one' },
-          //     { value: 'Latte', label: 'Latte', trigger: 'incorrect-one' },
-          //     { value: 'Mocha', label: 'Mocha', trigger: 'incorrect-one' },
-          //     { value: 'Cappuccino', label: 'Cappucino', trigger: 'incorrect-one' }
-          //   ],
-          //   trigger:'heat-example',
-          //   delay: 2000
-          // },
-        
-          // {
-          //   id: 'correct-one',
-          //   message: 'That\'s correct!',
-          //     //Americano has the lowest calorie count of 3 , whereas Latte has 70 caloris, Mocha has 110 calories & Cappuccino has 50 calories.  Good Job! ',
-          //   trigger: 'before-graph-msg-2'
-          // },
-          // {
-          //   id: 'incorrect-one',
-          //   message: 'Oops! That\'s incorrect. Please try again.',
-          //   trigger: 'wrong-graph-msg-1',
-          //   delay: 1000
-          // },
-          // {
-          //   id: 'wrong-graph-msg-1',
-          //   message: "Let's try again: Based on the following heatmap, answer the question that follows..  ",
-          //   trigger: 'display-heatmap-Q1'
-          // },
-
-          // // q 2
-          // {
-          //   id: 'before-graph-msg-2',
-          //   message: "Great! Now let's move onto the  question 2 that follows after the graph..  ",
-          //   trigger: 'display-heatmap-Q2'
-          // },
-
-          // {
-          //   id:'display-heatmap-Q2',
-          //   component: <HeatGraph data={heatmapData} />,
-          //   trigger: 'ask-question-two',
-          //   delay: 2000 
-          // },
-          // {
-          //   id: 'ask-question-two',
-          //   message: ' Q2. Which Nutritional Value is the highest for Cappucino?',
-          //   trigger: 'options-two',
-          //   delay: 2000
-          // },
-          // {
-          //   id: 'options-two',
-          //   options: [
-          //     { value: 'Calories ', label: 'Calories', trigger: 'incorrect-two' },
-          //     { value: 'Caffeine', label: 'Caffeine', trigger: 'incorrect-two' },
-          //     { value: 'Sugar', label: 'Sugar', trigger: 'incorrect-two' },
-          //     { value: 'Carbs', label: 'Carbs', trigger: 'correct-two' }
-          //   ],
-          //   trigger:'heat-example',
-          //   delay: 2000
-          // },
-        
-          // {
-          //   id: 'correct-two',
-          //   message: 'That\'s correct! ',
-          //     //Amongst all nutritional values in Cappucino, Carbs is the highest at 60 g.  ',
-          //   trigger: 'before-graph-msg-3'
-          // },
-          // {
-          //   id: 'incorrect-two',
-          //   message: 'Oops! That\'s incorrect. Please try again.',
-          //   trigger: 'wrong-graph-msg-2',
-          //   delay: 1000
-          // },
-
-          // {
-          //   id: 'wrong-graph-msg-2',
-          //   message: "Let's try again: Based on the following heatmap, answer the question that follows..  ",
-          //   trigger: 'display-heatmap-Q2'
-          // },
-          // //
-
-          // // q3
-          // {
-          //   id: 'before-graph-msg-3',
-          //   message: "Awesome! Moving onto question 3 that follows after the graph..  ",
-          //   trigger: 'display-heatmap-Q3',
-          //   delay:2000
-          // },
-
-          // {
-          //   id:'display-heatmap-Q3',
-          //   component: <HeatGraph data={heatmapData} />,
-          //   trigger: 'ask-question-three',
-          //   delay: 2000 
-          // },
-          // {
-          //   id: 'ask-question-three',
-          //   message: ' Q3. Which drink has more Carbohydrates than a Macchiato?',
-          //   trigger: 'options-three',
-          //   delay: 2000
-          // },
-          // {
-          //   id: 'options-three',
-          //   options: [
-          //     { value: 'Latte', label: 'Latte', trigger: 'correct-three' },
-          //     { value: 'Americano ', label: 'Americano', trigger: 'incorrect-three' },
-          //     { value: 'Mocha', label: 'Mocha', trigger: 'incorrect-three' },
-          //     { value: 'Cappuccino', label: 'Cappucino', trigger: 'incorrect-three' }
-          //   ],
-          //   trigger:'heat-example',
-          //   delay: 2000
-          // },
-        
-          // {
-          //   id: 'correct-three',
-          //   message: 'That\'s correct! ',
-          //     //Latte has the more carbohydrates (75g) than Macchiato , whereas all the others have lower carbohydartes: Amerciano (5 g), Mocha (60 g) & Cappuccino (60g).  ',
-          //   trigger: 'before-graph-msg-4'
-          //   // tirgger:'end-message'
-          // },
-          // {
-          //   id: 'incorrect-three',
-          //   message: 'Oops! That\'s incorrect. Please try again.',
-          //   trigger: 'wrong-graph-msg-3',
-          //   delay: 1000
-          // },
-          // {
-          //   id: 'wrong-graph-msg-3',
-          //   message: "Let's try again: Based on the following heatmap, answer the question that follows..  ",
-          //   trigger: 'display-heatmap-Q3'
-          // },
-
-          // // q4 
-          
-          // {
-          //   id: 'before-graph-msg-4',
-          //   message: "Cool! Let's move onto the last question for this quiz..  ",
-          //   trigger: 'display-heatmap-Q4',
-          //   delay:2000
-          // },
-
-          // {
-          //   id:'display-heatmap-Q4',
-          //   component: <HeatGraph data={heatmapData} />,
-          //   trigger: 'ask-question-four',
-          //   delay: 2000 
-          // },
-          //   {
-          //     id: 'ask-question-four',
-          //     message: ' Q4. How much caffeine content ( in "mg") does a Mocha Coffee have? Enter a numeric value:',
-          //     trigger: 'check-answer',
-          //     delay: 2000
-
-          //   },
-          //   // {
-          //   //   id:'checkpoint-1',
-          //   //   trigger:'heat-example-lastQ',
-          //   // },
-
-          //   // {
-          //   //   id: 'heat-example-lastQ',
-          //   //   component: <HeatGraph data={heatmapData} />,
-          //   //   trigger: 'check-answer',
-          //   //   delay: 3000 
-              
-          //   // },
-
-          //   {
-          //     id: 'check-answer',
-          //     user: true,
-          //   //   validator: (value) => {
-          //   //     // Convert the user's response to lowercase for case-insensitive comparison
-          //   //     const response = value.trim();
-          //   //     // Check if the response is '85'
-          //   //     if (response === '85') {
-          //   //       return 'correct-response'; // Go to the correct-response step
-          //   //     } else {
-          //   //       return 'incorrect-response'; // Go to the incorrect-response step
-          //   //     }
-          //   //   },
-          //   // },
-          //   validator: (value) => { // Validator function to validate user input
-            
-          //     if (isNaN(value)) { // Check if the input is not a number
-          //       return 'Value should be a number only';
-          //     }
-          //     else {
-          //       if(value != 85) { 
-          //       return 'Oops! That\'s incorrect. Please try again';
-          //     }
-          //     //trigger: 'incorrect-reponmse',
-          //   }
-          //     return true; // Return true if input is valid
-          //   },
-          //   trigger: 'correct-response', // Trigger next step after validation
-          // },
-        
-
-          //   {
-          //     id: 'correct-response',
-          //     message: 'That\'s correct! Mocha Coffee indeed has 85mg of caffeine content.',
-          //     trigger: 'end-message',
-          //     delay: 3000
-
-          //   },
-          //   {
-          //     id: 'incorrect-response',
-          //     message: 'Oops! That\'s incorrect. Please enter a numeric value only.',
-          //     trigger: 'ask-question-four' // Repeat the question if the response is incorrect
-          //   },
-            
+       
          // --------------------TREEMAP------------------------
           //treemap-content
           // dataset-treemap
           {
+            id: 'treemap-content-2',
+            message: "A treemap shows a visual hierarchy where categories are represented by rectangles, and the size of each rectangle corresponds to the quantity or importance of that category. It's a simple and effective way to show proportions and relationships between different groups of data.",
+            trigger: 'dataset-treemap'
+          },
+          {
             id:"dataset-treemap",
-            message: "Let's embark on a journey to create a treemap using Google PlayStore App data from different categories. The dataset includes information on Google Playstore Apps and their category, rating and size.  ",
+            message: "Let's embark on a journey to create a treemap using Google PlayStore App data from different categories. The dataset includes information on Google Playstore Apps and their category, rating, and downloads.",
             trigger:'display-treemap-table'
           },
           
@@ -978,28 +667,35 @@ class CocoBot extends Component {
           // display dataset in tabular form.. not done
           {
             id: 'display-treemap-table',
-            message:"<INSERT TABLE HERE>",
-            // component: <TreemapDatasetTable data={treemapData} />, // <HeatmapDatasetTable data={heatmapData} />,
+           // message:"<INSERT TABLE HERE>",
+            component: <TreemapDatasetTable data={treemapData} />, // <HeatmapDatasetTable data={heatmapData} />,
             trigger: 'next-continue-treemap'
           },
 
           
           {id:'next-continue-treemap',
           options: [
-            { value: 'Yes, please continue', label: 'Proceed', trigger: 'show-treemap-visual' },
+            { value: 'Yes, please continue', label: 'Proceed', trigger: 'treemap-next' },
           ]
           },
+          {
+            id: 'treemap-next',
+            message :"Now, let's unveil the treemap! Take a moment to absorb the overall structure before we zoom in.",
+            trigger:'show-treemap-visual',
+            delay: 3000 
 
+          },
+          // {
+          //   id: 'treemap-content-2',
+          //   message: "A treemap is like a visual hierarchy where categories are represented by rectangles, and the size of each rectangle corresponds to the quantity or importance of that category. It's a simple and effective way to show proportions and relationships between different groups of data.",
+          //   trigger: 'learn-tree-options'
+          // },
           {
             id: 'show-treemap-visual',
             component: <Treemap data={treemapData} />,
-            trigger: 'treemap-content-2'
+            trigger: 'learn-tree'
           },
-          {
-            id: 'treemap-content-2',
-            message: "A treemap is like a visual hierarchy where categories are represented by rectangles, and the size of each rectangle corresponds to the quantity or importance of that category. It's a simple and effective way to show proportions and relationships between different groups of data.",
-            trigger: 'learn-tree-options'
-          },
+   
 
           {
             id: 'learn-tree',
@@ -1065,7 +761,7 @@ class CocoBot extends Component {
 
           {
             id: 'text-CategoryintoSubcateg',
-            message: "Let's now divide the Category rectangles into smaller Sub rectangles based on the proportions of the Category values. The larger the Category, the larger the corresponding rectangle. This division reflects the hierarchy of our data. ",
+            message: "Let's now divide the Category rectangles into smaller Sub rectangles based on the proportions of the Subcategory values. The larger the Subcategory, the larger the corresponding rectangle. This division reflects the proportion within each category. ",
             trigger: 'learn-tree'
           },
 
@@ -1077,7 +773,7 @@ class CocoBot extends Component {
           },
           {
             id: 'text-Label-Categories',
-            message: "Now, let's label the rectangles with the names of Categories. The category labels should have lesser font size than that of the title. This step enhances the interpretability of the treemap.",
+            message: "Now, let's label the rectangles with the names of Categories. Provide the title of the treemap at the top in a bigger font size. The category labels should have a smaller font size than that of the title and placed at the top of the corresponding rectangle. This step enhances the interpretability of the treemap.",
             trigger: 'learn-tree'
           },
 
@@ -1089,7 +785,7 @@ class CocoBot extends Component {
           },
           {
             id: 'text-Label-Sub-Categories',
-            message: " Now, let's label the rectangles with the names of Sub-Categories. If a rectangle is divided, provide labels for each subcategory. The sub-category labels should have lesser font size than that of the category labels.  If the Subcategory is small in size avoid labeling in case the label does not fit in the rectangle. This step enhances the interpretability of the treemap. ",
+            message: "Now, let's label the rectangles with the names of Subcategories. The sub-category labels should have a smaller font size than that of the category labels.  If the Subcategory is too small in size and the label does not fit in the rectangle, leave it unlabeled. This step enhances the interpretability of the treemap.",
             trigger: 'learn-tree'
           },
 
@@ -1101,7 +797,7 @@ class CocoBot extends Component {
           },
           {
             id: 'text-Coloring-Categories',
-            message: " Now let us bring the treemap to life by using distinct colors to fill each rectangle. Assign colors to represent different Categories. This visual element adds clarity and helps distinguish between the Categories.",
+            message: "Now let us bring the treemap to life by using distinct colors to fill each rectangle. Assign colors to represent different Categories. This visual element adds clarity and helps distinguish between the Categories.",
             trigger: 'learn-tree'
           },
 
@@ -1114,7 +810,7 @@ class CocoBot extends Component {
          
           {
             id: 'text-Coloring-Sub-Categories',
-            message: " Now let us use distinct colors to fill each sub-category. Assign color hues based on size of the sub-category. Lighter colors represent smaller size and darker color represents bigger size. This visual element adds clarity and helps distinguish between the Sub-Categories.",
+            message: "Now let us use different shades of colors to fill each sub-category. Assign color shades based on the size of the sub-category. Lighter colors represent a smaller value and darker colors represent a bigger value. For the dark-shaded regions, use white text color. This visual element adds clarity and helps distinguish between the Sub-Categories.",
             trigger: 'learn-tree'
           },
 
@@ -1125,7 +821,7 @@ class CocoBot extends Component {
           },
           {
             id: 'text-Zoom-in',
-            message: "Lets now zoom in on a specific category to explore it in detail. This allows for a closer examination of the variations within that particular category and its sub-categories. ",
+            message: "Let's now zoom in on a specific category to explore it in detail. This allows for a closer examination of the variations within that particular category and its sub-categories.  ",
             trigger: 'learn-tree'
           },
 
@@ -1136,26 +832,177 @@ class CocoBot extends Component {
           },
           {
             id: 'text-Add-details',
-            message: "Let us add details such as numerical values, percentages, or other annotations for ratings and sizes within the rectangles. This supplementary information enriches the viewer's understanding of the dataset.",
+            message: "Let us add the value for each subcategory – such as numerical values, percentages, or other annotations for ratings and downloads – as text in the middle of the rectangle. This supplementary information enriches the viewer's understanding of the dataset. Also, make sure to mention the unit (M = million in this example) if applicable.",
             trigger: 'learn-tree'
           },
 
           {
             id:'skip-all-tree',
             component: <Treemap data={treemapData} />,
-            trigger: 'skip-all-tree-text'
+            options: [
+              { value:'Learn again', label:'Learn again', trigger:'learn-tree'},
+              { value: 'Take a quiz', label: 'Take a quiz', trigger: 'treequiz' },
+              { value: 'Nothing for now', label: 'Nothing for now', trigger: 'tend message' }
+            ]
           },
           {
-            id:"skip-all-tree-text",
+            id: 'treequiz',
+            message: "Let’s now quickly check our understanding of Treemaps based on the following treemap. While we need to add details inside the categories, let's remove the details for now and focus on interpreting the treemap purely based on colors and sizes.",
+            trigger: 'display-Treemap-Q1'
+          },
+       
+          // {
+          //   id: 'before-graph-msgtree',
+          //   message: "Q1 of 5: Based on the given treemap, answer the question that follows..  ",
+          //   trigger: 'display-Treemap-Q1'
+          // },
+
+          {
+            id:'display-Treemap-Q1',
+            component: <QTreemap1 data={QuiztreemapData1} />,
+            trigger: 'task-question-one',
+            delay: 2000 
+          },
+          
+          
+          {
+            id: 'task-question-one',
+            message: 'Q1. Which sub-genre had the highest revenue in the Mystery Genre?',
+            trigger: 'toptions-one',
+            delay: 2000
+          },
+          {
+            id: 'toptions-one',
+            options: [
+              { value: 'Spy', label: 'Spy', trigger: 'task-question-two' },
+              { value: 'True Crime', label: 'True Crime', trigger: 'task-question-two' },
+              { value: 'Crime', label: 'Crime', trigger: 'task-question-two' },
+            ],
+          },
+          
+          
+          // {
+          //   id: 'tree-before-graph-msg-2',
+          //   message: "Moving onto the Q2 of 5, Based on the given treemap, answer the question that follows..  ",
+          //   trigger: 'display-treemap-Q2'
+          // },
+
+          // {
+          //   id:'display-treemap-Q2',
+          //   component: <QTreemap2 data={QuiztreemapData2} />,
+          //   trigger: 'task-question-two',
+          //   delay: 2000 
+          // },
+          
+          {
+            id: 'task-question-two',
+            message: 'Q2. Which genre had the highest revenue overall?',
+            trigger: 'toptions-two',
+            delay: 3000
+          },
+          {
+            id: 'toptions-two',
+            options: [
+              { value: 'Childrens Books', label: 'Childrens Books', trigger: 'task-question-three' },
+              { value: 'Mystery', label: 'Mystery', trigger: 'task-question-three' },
+              { value: 'Non Fiction', label: 'Non Fiction', trigger: 'task-question-three' },
+              { value: 'Arts and Photography', label: 'Arts and Photography', trigger: 'task-question-three' }
+            ]
+          },
+         
+          
+          // {
+          //   id: 'tbefore-graph-msg-3',
+          //   message: "Moving onto the Q3 of 5, Based on the given treemap, answer the question that follows..  ",
+          //   trigger: 'display-treemap-Q3'
+          // },
+
+          // {
+          //   id:'display-treemap-Q3',
+          //   component: <QTreemap3 data={QuiztreemapData3} />,
+          //   trigger: 'task-question-three',
+          //   delay: 3000 
+          // },
+          
+          {
+            id: 'task-question-three',
+            message: 'Q3. Which other non fiction sub-genre had more revenue than Fashion?',
+            trigger: 'toptions-three',
+            delay: 2000
+          },
+          {
+            id: 'toptions-three',
+            options: [
+              { value: 'History', label: 'History', trigger: 'task-question-four' },
+              { value: 'Sports', label: 'Sports', trigger: 'task-question-four' },
+              { value: 'Home', label: 'Home', trigger: 'task-question-four' },
+              { value: 'Fitness', label: 'Fitness', trigger: 'task-question-four' }
+            ]
+          },
+         
+
+          // {
+          //   id: 'tbefore-graph-msg-4',
+          //   message: " Moving onto the Q4 of 5, Based on the given treemap, answer the question that follows..  ",
+          //   trigger: 'display-treemap-Q4'
+          // },
+
+          // {
+          //   id:'display-treemap-Q4',
+          //   component: <QTreemap4 data={QuiztreemapData4} />,
+          //   trigger: 'task-question-four',
+          //   delay: 2000 
+          // },
+          // q4 and 5
+          {
+            id: 'task-question-four',
+            message: ' Q4. Which sub genre had the lowest revenue overall? Enter a text value:',
+            trigger: 'tuser-input4',
+            delay: 2000
+          },
+          {
+            id: 'tuser-input4',
+            user: true,
+            trigger: 'task-question-five'
+          },
+   
+          
+          // {
+          //   id: 'tbefore-graph-msg-5',
+          //   message: "Moving onto the final question, based on the given treemap, answer the question that follows..  ",
+          //   trigger: 'display-treemap-Q5'
+          // },
+
+          // {
+          //   id:'display-treemap-Q5',
+          //   component: <QTreemap5 data={QuiztreemapData5} />,
+          //   trigger: 'task-question-five',
+          //   delay: 2000 
+          // },
+          {
+            id: 'task-question-five',
+            message: 'Q3. What percentage is Fashion of the Non Fiction Genre?',
+            trigger: 'toptions-five',
+            delay: 2000
+          },
+          {
+            id: 'toptions-five',
+            options: [
+              { value: '50', label: '50', trigger: 'tend message' },
+              { value: '20', label: '20', trigger: 'tend message' },
+              { value: '60', label: '35', trigger: 'tend message' },
+              { value: '75', label: '75', trigger: 'tend message' }
+            ],
+          },
+         
+
+          {
+            id:"tend message",
             message:'In Conclusion, Treemaps are powerful tools for visualizing hierarchical data. Enjoy exploring your data!',
             end: true
           },
 
-         
-          
-          
-         
-
+   
         
         
           {
