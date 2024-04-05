@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Green Commute Connect</title>
+  <style>
+    /* CSS styles */
+
+    /* Body styles */
+    body {
+      /* Sets background color and font */
+      background-color: #F2F9F1;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* Container styles */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      text-align: center;
+    }
+
+    /* Heading styles */
+    h1 {
+      color: #388E3C;
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      color: #8BC34A;
+      font-size: 24px;
+      margin-bottom: 30px;
+    }
+
+    /* Button styles */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: #8BC34A;
+      color: #FFF;
+      font-size: 18px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+
+    .btn:hover {
+      background-color: #DDEEDF;
+    }
+
+    /* Navigation page styles */
+    .navigation-page .btn {
+      display: none;
+    }
+
+    .navigation-page.active .btn {
+      display: inline-block;
+    }
+
+    /* Content styles */
+    .content {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+      background-color: #FFF;
+      border-radius: 4px;
+    }
+
+    .content.active {
+      display: block;
+    }
+
+    /* Search bar styles */
+    .search-bar {
+      margin-bottom: 20px;
+    }
+
+    .search-bar input[type="text"] {
+      padding: 8px;
+      font-size: 16px;
+      border-radius: 4px;
+    }
+
+    .search-bar button {
+      padding: 8px 16px;
+      background-color: #8BC34A;
+      color: #FFF;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    /* Search results styles */
+    .search-results {
+      text-align: left;
+    }
+
+    .transit-option {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #E8F5E9;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .transit-option:hover {
+      background-color: #C8E6C9;
+    }
+
+    .transit-option .option-name {
+      flex: 1;
+    }
+
+    .transit-option .option-time {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .transit-option .option-time.green {
+      background-color: #4CAF50;
+      color: #FFF;
+    }
+
+    .transit-option .option-time.orange {
+      background-color: #FF9800;
+      color: #FFF;
+    }
+
+    .transit-option .option-time.red {
+      background-color: #F44336;
+      color: #FFF;
+    }
+
+    /* Confirmation screen styles */
+    .confirmation-screen {
+      display: none;
+      text-align: left;
+    }
+
+    .confirmation-screen.active {
+      display: block;
+    }
+
+    .confirmation-screen h3 {
+      margin-bottom: 10px;
+    }
+
+    .confirmation-screen p {
+      margin-bottom: 5px;
+    }
+
+    .confirmation-screen .btn {
+      margin-top: 20px;
+    }
+
+    /* Back button styles */
+    .back-button {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .back-button.active {
+      display: inline-block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Green Commute Connect</h1>
+    <h2>Navigate the path to a cleaner planet</h2>
+    <a class="btn" href="#navigation" id="tripButton">Plan your next sustainable trip</a>
+
+    <!-- Navigation section -->
+    <div class="navigation-page" id="navigation">
+      <a class="btn" href="#public-transit" id="publicTransitButton">Public Transit</a>
+      <a class="btn" href="#bike-sharing" id="bikeSharingButton">Bike Sharing</a>
+      <a class="btn" href="#carpooling" id="carpoolingButton">Carpooling</a>
+      <a class="btn" href="#walking-routes" id="walkingRoutesButton">Walking Routes</a>
+    </div>
+
+    <!-- Public Transit content -->
+    <div class="content" id="publicTransitContent">
+      <h3>Public Transit</h3>
+      <p>Choose from the following options:</p>
+      <div class="search-bar">
+        <input type="text" id="destinationInput" placeholder="Enter your destination">
+        <button id="searchButton">Search</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+
+    <!-- Bike Sharing content -->
+    <div class="content" id="bikeSharingContent">
+      <h3>Bike Sharing</h3>
+      <p>Choose from the available bikes:</p>
+      <div class="search-bar">
+        <input type="text" id="destinationInputBike" placeholder="Enter your destination">
+        <button id="searchButtonBike">Search</button>
+      </div>
+      <div class="search-results" id="searchResultsBike"></div>
+    </div>
+
+    <!-- Carpooling content -->
+    <div class="content" id="carpoolingContent">
+      <h3>Carpooling</h3>
+      <p>Choose from the available carpool options:</p>
+      <div class="search-bar">
+        <input type="text" id="destinationInputCarpool" placeholder="Enter your destination">
+        <button id="searchButtonCarpool">Search</button>
+      </div>
+      <div class="search-results" id="searchResultsCarpool"></div>
+    </div>
+
+    <!-- Walking Routes content -->
+    <div class="content" id="walkingRoutesContent">
+      <h3>Walking Routes</h3>
+      <p>Choose from the available walking routes:</p>
+      <div class="search-bar">
+        <input type="text" id="destinationInputWalking" placeholder="Enter your destination">
+        <button id="searchButtonWalking">Search</button>
+      </div>
+      <div class="search-results" id="searchResultsWalking"></div>
+    </div>
+
+    <!-- Confirmation screen -->
+    <div class="confirmation-screen" id="confirmationScreen">
+      <h3>Confirmation</h3>
+      <p><strong>Option:</strong> <span id="selectedOption"></span></p>
+      <p><strong>Destination:</strong> <span id="selectedDestination"></span></p>
+      <p><strong>Price:</strong> $<span id="selectedPrice"></span></p>
+      <button class="btn" id="bookRideButton">Book Ride</button>
+      <p id="confirmationMessage"></p>
+      <button class="btn back-button" id="backButton">Back to Home</button>
+    </div>
+  </div>
+
+  <script>
+    // JavaScript code
+
+    // Get DOM elements
+    const tripButton = document.getElementById('tripButton');
+    const navigationPage = document.getElementById('navigation');
+    const publicTransitButton = document.getElementById('publicTransitButton');
+    const bikeSharingButton = document.getElementById('bikeSharingButton');
+    const carpoolingButton = document.getElementById('carpoolingButton');
+    const walkingRoutesButton = document.getElementById('walkingRoutesButton');
+    const publicTransitContent = document.getElementById('publicTransitContent');
+    const bikeSharingContent = document.getElementById('bikeSharingContent');
+    const carpoolingContent = document.getElementById('carpoolingContent');
+    const walkingRoutesContent = document.getElementById('walkingRoutesContent');
+    const destinationInput = document.getElementById('destinationInput');
+    const destinationInputBike = document.getElementById('destinationInputBike');
+    const destinationInputCarpool = document.getElementById('destinationInputCarpool');
+    const destinationInputWalking = document.getElementById('destinationInputWalking');
+    const searchButton = document.getElementById('searchButton');
+    const searchButtonBike = document.getElementById('searchButtonBike');
+    const searchButtonCarpool = document.getElementById('searchButtonCarpool');
+    const searchButtonWalking = document.getElementById('searchButtonWalking');
+    const searchResults = document.getElementById('searchResults');
+    const searchResultsBike = document.getElementById('searchResultsBike');
+    const searchResultsCarpool = document.getElementById('searchResultsCarpool');
+    const searchResultsWalking = document.getElementById('searchResultsWalking');
+    const confirmationScreen = document.getElementById('confirmationScreen');
+    const selectedOption = document.getElementById('selectedOption');
+    const selectedDestination = document.getElementById('selectedDestination');
+    const selectedPrice = document.getElementById('selectedPrice');
+    const bookRideButton = document.getElementById('bookRideButton');
+    const confirmationMessage = document.getElementById('confirmationMessage');
+    const backButton = document.getElementById('backButton');
+
+    // Event listeners
+    tripButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      tripButton.style.display = 'none';
+      navigationPage.classList.add('active');
+    });
+
+    publicTransitButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      navigationPage.style.display = 'none';
+      publicTransitContent.classList.add('active');
+    });
+
+    bikeSharingButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      navigationPage.style.display = 'none';
+      bikeSharingContent.classList.add('active');
+    });
+
+    carpoolingButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      navigationPage.style.display = 'none';
+      carpoolingContent.classList.add('active');
+    });
+
+    walkingRoutesButton.addEventListener('click', function(event) {
+      event.preventDefault();
+      navigationPage.style.display = 'none';
+      walkingRoutesContent.classList.add('active');
+    });
+
+    searchButton.addEventListener('click', function() {
+      const destination = destinationInput.value;
+      const transitOptions = generateRandomTransitOptions();
+
+      displaySearchResults(transitOptions);
+    });
+
+    searchButtonBike.addEventListener('click', function() {
+      const destination = destinationInputBike.value;
+      const bikeOptions = generateRandomBikeOptions();
+
+      displayBikeOptions(bikeOptions);
+    });
+
+    searchButtonCarpool.addEventListener('click', function() {
+      const destination = destinationInputCarpool.value;
+      const carpoolOptions = generateRandomCarpoolOptions();
+
+      displayCarpoolOptions(carpoolOptions);
+    });
+
+    searchButtonWalking.addEventListener('click', function() {
+      const destination = destinationInputWalking.value;
+      const walkingOptions = generateRandomWalkingOptions();
+
+      displayWalkingOptions(walkingOptions);
+    });
+
+    // Helper functions
+
+    // Generates random transit options
+    function generateRandomTransitOptions() {
+      const transitOptions = [
+        'Bus',
+        'Train',
+        'Tram',
+        'Subway'
+      ];
+
+      // Generate random transit options
+      const randomOptions = [];
+      for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * transitOptions.length);
+        randomOptions.push(transitOptions[randomIndex]);
+      }
+
+      return randomOptions;
+    }
+
+    // Generates random bike options
+    function generateRandomBikeOptions() {
+      const bikeOptions = [
+        'Bike Station',
+        'Electric Bike Station',
+        'Electric Scooter Station',
+      ];
+
+      // Generate random bike options
+      const randomOptions = [];
+      for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * bikeOptions.length);
+        randomOptions.push(bikeOptions[randomIndex]);
+      }
+
+      return randomOptions;
+    }
+
+    // Generates random carpool options
+    function generateRandomCarpoolOptions() {
+      const carpoolOptions = [
+        'John\'s Carpool',
+        'Sarah\'s Carpool',
+        'Michael\'s Carpool',
+        'Emily\'s Carpool',
+        'David\'s Carpool',
+        'Olivia\'s Carpool',
+        'Daniel\'s Carpool',
+        'Sophia\'s Carpool',
+        'Matthew\'s Carpool',
+        'Emma\'s Carpool'
+      ];
+
+      // Generate random carpool options
+      const randomOptions = [];
+      for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * carpoolOptions.length);
+        randomOptions.push(carpoolOptions[randomIndex]);
+      }
+
+      return randomOptions;
+    }
+
+    // Generates random walking route options
+    function generateRandomWalkingOptions() {
+      const walkingOptions = [
+        'Scenic Route',
+        'Park Trail',
+        'City Center Walk',
+        'Historic District',
+        'Waterfront Walk',
+        'Neighborhood Stroll',
+        'Nature Trail',
+        'Shopping District',
+        'University Campus Walk',
+        'River Walk'
+      ];
+
+      // Generate random walking route options
+      const randomOptions = [];
+      for (let i = 0; i < 10; i++) {
+        const randomIndex = Math.floor(Math.random() * walkingOptions.length);
+        randomOptions.push(walkingOptions[randomIndex]);
+      }
+
+      return randomOptions;
+    }
+
+    // Generates random transit time with color
+    function generateRandomTime() {
+      const time = Math.floor(Math.random() * 45) + 1;
+
+      if (time <= 10) {
+        return { time, color: 'green' };
+      } else if (time <= 30) {
+        return { time, color: 'orange' };
+      } else {
+        return { time, color: 'red' };
+      }
+    }
+
+    // Displays search results for public transit options
+    function displaySearchResults(options) {
+      searchResults.innerHTML = '';
+
+      if (options.length === 0) {
+        searchResults.innerHTML = 'No transit options found.';
+      } else {
+        options.forEach(option => {
+          const { time, color } = generateRandomTime();
+
+          const div = document.createElement('div');
+          div.classList.add('transit-option');
+
+          const optionName = document.createElement('span');
+          optionName.classList.add('option-name');
+          optionName.textContent = option;
+
+          const optionTime = document.createElement('span');
+          optionTime.classList.add('option-time', color);
+          optionTime.textContent = `${time} min`;
+
+          div.appendChild(optionName);
+          div.appendChild(optionTime);
+          searchResults.appendChild(div);
+
+          div.addEventListener('click', function() {
+            const selectedTransit = option;
+            const selectedTime = time;
+            const selectedColor = color;
+
+            selectedOption.textContent = selectedTransit;
+            selectedDestination.textContent = destinationInput.value;
+            selectedPrice.textContent = generateRandomPrice();
+            confirmationScreen.classList.add('active');
+          });
+        });
+      }
+    }
+
+    // Displays search results for bike sharing options
+    function displayBikeOptions(options) {
+      searchResultsBike.innerHTML = '';
+
+      if (options.length === 0) {
+        searchResultsBike.innerHTML = 'No bike options found.';
+      } else {
+        options.forEach(option => {
+          const { time, color } = generateRandomTime();
+
+          const div = document.createElement('div');
+          div.classList.add('transit-option');
+
+          const optionName = document.createElement('span');
+          optionName.classList.add('option-name');
+          optionName.textContent = option;
+
+          const optionTime = document.createElement('span');
+          optionTime.classList.add('option-time', color);
+          optionTime.textContent = `${time} min`;
+
+          div.appendChild(optionName);
+          div.appendChild(optionTime);
+          searchResultsBike.appendChild(div);
+
+          div.addEventListener('click', function() {
+            const selectedBike = option;
+            const selectedTime = time;
+            const selectedColor = color;
+
+            selectedOption.textContent = selectedBike;
+            selectedDestination.textContent = destinationInputBike.value;
+            selectedPrice.textContent = generateRandomPrice();
+            confirmationScreen.classList.add('active');
+          });
+        });
+      }
+    }
+
+    // Displays search results for carpooling options
+    function displayCarpoolOptions(options) {
+      searchResultsCarpool.innerHTML = '';
+
+      if (options.length === 0) {
+        searchResultsCarpool.innerHTML = 'No carpool options found.';
+      } else {
+        options.forEach(option => {
+          const { time, color } = generateRandomTime();
+
+          const div = document.createElement('div');
+          div.classList.add('transit-option');
+
+          const optionName = document.createElement('span');
+          optionName.classList.add('option-name');
+          optionName.textContent = option;
+
+          const optionTime = document.createElement('span');
+          optionTime.classList.add('option-time', color);
+          optionTime.textContent = `${time} min`;
+
+          div.appendChild(optionName);
+          div.appendChild(optionTime);
+          searchResultsCarpool.appendChild(div);
+
+          div.addEventListener('click', function() {
+            const selectedCarpool = option;
+            const selectedTime = time;
+            const selectedColor = color;
+
+            selectedOption.textContent = selectedCarpool;
+            selectedDestination.textContent = destinationInputCarpool.value;
+            selectedPrice.textContent = generateRandomPrice();
+            confirmationScreen.classList.add('active');
+          });
+        });
+      }
+    }
+
+    // Displays search results for walking routes
+    function displayWalkingOptions(options) {
+      searchResultsWalking.innerHTML = '';
+
+      if (options.length === 0) {
+        searchResultsWalking.innerHTML = 'No walking route options found.';
+      } else {
+        options.forEach(option => {
+          const div = document.createElement('div');
+          div.classList.add('transit-option');
+
+          const optionName = document.createElement('span');
+          optionName.classList.add('option-name');
+          optionName.textContent = option;
+
+          div.appendChild(optionName);
+          searchResultsWalking.appendChild(div);
+
+          div.addEventListener('click', function() {
+            const selectedWalking = option;
+
+            selectedOption.textContent = selectedWalking;
+            selectedDestination.textContent = destinationInputWalking.value;
+            confirmationScreen.classList.add('active');
+          });
+        });
+      }
+    }
+
+    // Generates random price
+    function generateRandomPrice() {
+      return Math.floor(Math.random() * 5) + 1;
+    }
+
+    // Event listener for booking a ride
+    bookRideButton.addEventListener('click', function() {
+      confirmationMessage.textContent = 'Your ride has been booked!';
+      backButton.classList.add('active');
+    });
+
+    // Event listener for going back to the home page
+    backButton.addEventListener('click', function() {
+      resetForm();
+    });
+
+    // Resets the form and clears the data
+    function resetForm() {
+      tripButton.style.display = 'inline-block';
+      navigationPage.style.display = 'block';
+      publicTransitContent.classList.remove('active');
+      bikeSharingContent.classList.remove('active');
+      carpoolingContent.classList.remove('active');
+      walkingRoutesContent.classList.remove('active');
+      confirmationScreen.classList.remove('active');
+      backButton.classList.remove('active');
+      destinationInput.value = '';
+      destinationInputBike.value = '';
+      destinationInputCarpool.value = '';
+      destinationInputWalking.value = '';
+      searchResults.innerHTML = '';
+      searchResultsBike.innerHTML = '';
+      searchResultsCarpool.innerHTML = '';
+      searchResultsWalking.innerHTML = '';
+      selectedOption.textContent = '';
+      selectedDestination.textContent = '';
+      selectedPrice.textContent = '';
+      confirmationMessage.textContent = '';
+    }
+  </script>
+</body>
+</html>
