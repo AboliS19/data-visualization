@@ -159,8 +159,8 @@ class CocoBot extends Component {
       handleEnd={this.handleEnd}
         learnOptions={options}
         onSelectOption={this.handleOptionSelected}
-
-        steps={[
+     
+        steps={[ 
           {
             id: '1',
             message:

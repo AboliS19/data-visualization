@@ -128,7 +128,7 @@ const boundsWidth = width - MARGIN.right - MARGIN.left;
         y={boundsHeight + 10}
         textAnchor="middle"
         dominantBaseline="middle"
-        fontSize={20}
+        fontSize={40}
       >
         {name}
       </text>

@@ -6,7 +6,7 @@ const ColoredMessage = ({ text }) => {
     <ReactMarkdown
       source={text}
       renderers={{
-        text: ({ value }) => <span style={{ color: value }}> </span>,
+        text: ({ value }) => <span style={{ color: value,  fontSize: 40}}> </span>,
         paragraph: 'span',
         emphasis: 'span',
         strong: 'span',

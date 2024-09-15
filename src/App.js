@@ -16,7 +16,7 @@ const style = {
 return (
 <div className="App">
 <div style={style}>
-<Sample />
+{/* <Sample /> */}
 </div>
 </div>
 );

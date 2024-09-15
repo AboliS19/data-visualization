@@ -5,7 +5,7 @@ a,abbr,acronym,address,applet,big,blockquote,body,caption,cite,code,dd,del,dfn,d
 body{
     font-family: "Roboto";
     font-weight: 300;
-    font-size: 18px;
+    font-size: 42px;
     line-height: 1.5em;
     
     background-color: #F2E8DC;
@@ -14,7 +14,7 @@ body{
 
 
 h1{
-    font-size: 3em;
+    font-size: 10em;
     line-height: 1em;
     font-weight: 100;
     margin-bottom: 50px;
@@ -24,7 +24,7 @@ h1 strong, h2, h3{
     font-weight: 700;
 }
 h3{
-    font-size: 2em;
+    font-size: 20em;
     text-align: center;
     margin-bottom: 50px;
 }
@@ -55,7 +55,7 @@ section#intro{
     background: #01080D;
     padding: 5px 10px;
     color: #F2E8DC;
-    font-size: .8em;
+    font-size: 10em;
 }
 figure {
     position: -webkit-sticky;
@@ -97,7 +97,7 @@ figure {
 
 .step h2{
     text-align: left;
-    font-size: 2em;
+    font-size: 10em;
     padding-bottom: 25px;
     line-height: .9em;
 }
@@ -133,13 +133,13 @@ ul li{
     margin-left: 15px;
 }
 .step p{
-    font-size: 1.1em;
+    font-size: 10em;
 }
 
 p.seperator{
     text-align: center;
     font-weight: 700;
-    font-size: 1em;
+    font-size: 10em;
     margin: 0 0;
     border-bottom: 2px solid #8C8274;
 }
@@ -168,7 +168,7 @@ p span.label{
     right: 20px;
     width: 500px;
     text-align: right;
-    font-size: .8em;
+    font-size: 10em;
     font-weight: 700;
 }
 
