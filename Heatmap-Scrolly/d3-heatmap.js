@@ -1,6 +1,7 @@
 
 const nCol = 5;
 const nRow = 5;
+const n2Col = 6;
 
 const Nutrition = [
   "Calories",	"Cholesterol"	,"Sugar","Total_Carbs","Caffeine"
@@ -128,6 +129,11 @@ const values3 = [
     67.7,
 198.6,
 78.6],
+[449.3,
+  411.8,
+  91.9,
+  230.2,
+  50.4],
 ];
 
 
@@ -145,7 +151,7 @@ for (let x = 0; x < nCol; x++) {
 }
 const data2 = []
 
-for (let x = 0; x < nCol; x++) {
+for (let x = 0; x < n2Col; x++) {
   for (let y = 0; y < nRow; y++) {
     data2.push({
       x: year[x],
@@ -558,6 +564,7 @@ svg.append("rect")
 
     svg
     .append("g")
+    .attr("id","Legend")
     .attr("x",width + 190)
     .attr("y",height)
     .attr("transform", `translate(710,${height -400})`)
@@ -565,6 +572,17 @@ svg.append("rect")
     .call(d3.axisRight(zScale))
     .selectAll("text") // Select all text elements
     .attr("font-size", "16px");
+
+    svg
+  .append("g")
+  .attr("id","quizLegend")
+  .attr("x", width + 190)
+  .attr("y", height)
+  .attr("transform", `translate(710,${height - 400})`)
+  .attr("class", "legend")
+  .call(d3.axisRight(zScale2)) // Change zScale to zScale2 here
+  .selectAll("text") // Select all text elements
+  .attr("font-size", "16px"); // Change font size (optional)
 
     /*svg.append("text")
     .attr('x',width + 260)
@@ -747,7 +765,7 @@ svg.selectAll(".legend")
         //svg.selectAll(".x-label").attr("visibility", "visible");
         //svg.selectAll(".y-label").attr("visibility", "visible");
         svg.selectAll(".tileData").attr("visibility", "visible")
-        
+        svg.selectAll("#quizLegend").attr("visibility", "hidden");
         svg.selectAll(".coloraxis").attr("visibility", "hidden");
         //svg.selectAll("text").attr("visibility", "visible");
         //svg.selectAll("text2").attr("visibility", "visible");
@@ -765,6 +783,7 @@ svg.selectAll(".legend")
       else if(index=== 1)
       {
         svg.select(".dataset").attr("visibility", "hidden") ;
+        svg.selectAll("#quizLegend").attr("visibility", "hidden");
         svg.selectAll(".heatmap-tile")
     .transition()
     .duration(1000)
@@ -804,7 +823,7 @@ svg.selectAll(".legend")
         svg.selectAll(".tileData").attr("visibility", "visible")
         //svg.selectAll(".x-label").attr("visibility", "visible");
         //svg.selectAll(".y-label").attr("visibility", "visible");
-        
+        svg.selectAll("#quizLegend").attr("visibility", "hidden");
         
         }
         else if(index === 3 ) 
@@ -823,6 +842,7 @@ svg.selectAll(".legend")
           //svg.selectAll("text").attr("visibility", "visible");
           //svg.selectAll(".legend").attr("visibility", "visible");
           svg.selectAll(".heatmap-tile").attr("visibility", "visible").attr("fill",d => colorScale(d.value)).style("filter", "none");
+          svg.selectAll("#quizLegend").attr("visibility", "hidden");
         }
         else if(index === 4 ) 
         {
@@ -879,6 +899,7 @@ svg.selectAll(".legend")
     .on("end", function() {
       d3.selectAll(this).attr("visibility", "visible") ;
     });
+    svg.selectAll("#quizLegend").attr("visibility", "hidden");
           
         }
         else if(index === 5 ) 
@@ -938,6 +959,7 @@ svg.selectAll(".legend")
           .on("end", function() {
             d3.selectAll(this).attr("visibility", "visible") ;
           });
+          svg.selectAll("#quizLegend").attr("visibility", "hidden");
           
         }
         else if(index === 6 ) 
@@ -1008,6 +1030,7 @@ svg.selectAll(".legend")
             d3.selectAll(this).attr("visibility", "visible") ;
           });
           */
+          svg.selectAll("#quizLegend").attr("visibility", "hidden");
         }
         else if(index === 7 ) 
         {
@@ -1026,7 +1049,7 @@ svg.selectAll(".legend")
     });
           svg.select('#rect-21').attr("visibility", "visible").attr("fill",d => colorScale(d.value)).attr("stroke", "blue").attr("stroke-width", 6);
           svg.select('#rect-0').attr("visibility", "visible").attr("fill",d => colorScale(d.value)).attr("stroke", "red").attr("stroke-width", 6);
-          
+          svg.selectAll("#quizLegend").attr("visibility", "hidden");
         }
         else if(index === 8 ) 
         {
@@ -1047,7 +1070,7 @@ svg.selectAll(".legend")
         svg2.select("#legend-container").attr("visibility", "visible");
         svg.select('#rect-21').attr("visibility", "visible").attr("fill",d => colorScale(d.value)).attr("stroke", "none");
           svg.select('#rect-0').attr("visibility", "visible").attr("fill",d => colorScale(d.value)).attr("stroke", "none");
-          
+          svg.selectAll("#quizLegend").attr("visibility", "hidden");
         }
         else if(index === 9 ) 
         {
@@ -1064,6 +1087,7 @@ svg.selectAll(".legend")
     .on("end", function() {
       d3.selectAll(this).attr("visibility", "visible") ;
     });
+    svg.selectAll("#quizLegend").attr("visibility", "hidden");
         }
         else if(index===10){
           //svg.selectAll(".x-label").attr("visibility", "hidden");
@@ -1085,6 +1109,8 @@ svg.selectAll(".legend")
         
         }
         else if(index===11){
-          rangeLegend = [434,0];
+          svg.selectAll("#Legend").attr("visibility", "hidden");
+          svg.selectAll("#quizLegend").attr("visibility", "visible");
+          svg.selectAll(".heatmap-tile").attr("visibility", "hidden") ;
         }
 }
