@@ -444,10 +444,6 @@ function updateTreemap(index) {
             }
           );
 
-
-          //svg.selectAll(".sub-label") 
-          //.attr("fill", (d) => d.data.magnitude<21? "black":"white");
-
           svg2.selectAll(".sub-label2")
           .style("opacity", (d) => d.data.magnitude < 5000 ? "0" : "1")
     .style("fill", (d) =>{
@@ -490,8 +486,6 @@ function updateTreemap(index) {
           imageSvg.style("visibility", "hidden");
         }
         if(index===1){
-          //svg.selectAll("rect").attr("visibility", "hidden");
-    //svg.selectAll("text").attr("visibility", "hidden");
     svg.selectAll("rect")
     .filter(function(d) { return d.depth !=0; }) 
     .attr("display", "none"); 
@@ -507,9 +501,6 @@ function updateTreemap(index) {
 
         }
         if(index ===2){
-          //svg.selectAll("rect").style("display", "block");
-    //svg.selectAll("text").style("display", "block");
-
           svg.attr("visibility", "visible");
           svg.selectAll("rect") 
           .filter(function(d) { return d.depth === 1 || d.depth === 2; }) 
@@ -594,7 +585,6 @@ function updateTreemap(index) {
         const initialTransform = d3.zoomIdentity.translate(translateX, translateY).scale(scale);
 
         // Apply the initial zoom
-        //mainSvg.call(zoom).call(zoom.transform, initialTransform);
         svg.call(zoom.transform, initialTransform);
         
         }
