@@ -1,24 +1,24 @@
-# vis-literacy
+# Scrollytelling-onbaording
 
-Steps to install:
-
-    Backend:
-
-        1. Install Node.js version v18.15.0 based on operating system.
-            https://nodejs.dev/en/learn/how-to-install-nodejs/
-
-        2. npm install express
-        3. npm install cors
-
-    Frontend:
-
-        1. npm install react react-dom
-        2. npm install react-simple-chatbot --save
 
 How to run: 
 
-    Server side: 
-        node backend.js
+    If using Live Server in VS Code:
+        1. Install the Live Server extension if you haven't already.
+        2. Go to the respective folder of scrollytelling onboarding (Heatmap & Treemap)
+        3. Right-click the index.html file and select "Open with Live Server."
+    
+    The app should now run in your browser on http://localhost:5500.
 
-    Client side:    
-        npm start
+    If using http-server (Node package):
+        1. Install http-server globally if not installed:
+            npm install -g http-server
+        2. Navigate to the project folder in the terminal:
+            cd path-to-your-project-folder/Heatmap-Scrolly  (For Heatmap onboarding)
+
+            cd path-to-your-project-folder/Treemap-Scrolly  (For Treemap onboarding)
+
+        3. Run the server:
+            http-server
+        4. Open http://localhost:8080 in your browser.
+
